@@ -29,7 +29,7 @@ FLUSH TABLE factions_import,listings_import,systems_import;
 --
 INSERT IGNORE INTO factions(eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction) SELECT eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction FROM factions_import;
 INSERT IGNORE INTO listings(eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at) SELECT * FROM listings_import;
-FFLUSH TABLE factions,listings;
+FLUSH TABLE factions,listings;
 
 --
 -- Build system auxiliary tables
