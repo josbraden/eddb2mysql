@@ -54,3 +54,5 @@ FLUSH TABLE systems;
 -- Drop import tables
 --
 DROP TABLE factions_import,listings_import,systems_import;
+
+-- TODO see if table optimization would be benificial at all at this stage
