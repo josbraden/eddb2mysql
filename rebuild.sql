@@ -34,20 +34,20 @@ FLUSH TABLE factions,listings;
 --
 -- Build system auxiliary tables
 --
-INSERT IGNORE INTO allegiance (allegiance_id,allegiance) SELECT DISTINCT allegiance_id,allegiance FROM systems_import;
-INSERT IGNORE INTO controlling_minor_faction (controlling_minor_faction_id,controlling_minor_faction) SELECT DISTINCT controlling_minor_faction_id,controlling_minor_faction FROM systems_import;
-INSERT IGNORE INTO government (government_id,government) SELECT DISTINCT government_id,government FROM systems_import;
-INSERT IGNORE INTO power_state (power_state_id,power_state) SELECT DISTINCT power_state_id,power_state FROM systems_import;
-INSERT IGNORE INTO primary_economy (primary_economy_id,primary_economy) SELECT DISTINCT primary_economy_id,primary_economy FROM systems_import;
-INSERT IGNORE INTO reserve_type (reserve_type_id,reserve_type) SELECT DISTINCT reserve_type_id,reserve_type FROM systems_import;
-INSERT IGNORE INTO security (security_id,security) SELECT DISTINCT security_id,security FROM systems_import;
-INSERT IGNORE INTO state (state_id,state) SELECT DISTINCT state_id,state FROM systems_import;
+INSERT IGNORE INTO allegiance(allegiance_id,allegiance) SELECT DISTINCT allegiance_id,allegiance FROM systems_import;
+INSERT IGNORE INTO controlling_minor_faction(controlling_minor_faction_id,controlling_minor_faction) SELECT DISTINCT controlling_minor_faction_id,controlling_minor_faction FROM systems_import;
+INSERT IGNORE INTO government(government_id,government) SELECT DISTINCT government_id,government FROM systems_import;
+INSERT IGNORE INTO power_state(power_state_id,power_state) SELECT DISTINCT power_state_id,power_state FROM systems_import;
+INSERT IGNORE INTO primary_economy(primary_economy_id,primary_economy) SELECT DISTINCT primary_economy_id,primary_economy FROM systems_import;
+INSERT IGNORE INTO reserve_type(reserve_type_id,reserve_type) SELECT DISTINCT reserve_type_id,reserve_type FROM systems_import;
+INSERT IGNORE INTO security(security_id,security) SELECT DISTINCT security_id,security FROM systems_import;
+INSERT IGNORE INTO state(state_id,state) SELECT DISTINCT state_id,state FROM systems_import;
 FLUSH TABLE allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state;
 
 --
 -- Build system table, this is the big table
 --
-INSERT IGNORE INTO systems (eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id) SELECT eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id FROM systems_import;
+INSERT IGNORE INTO systems(eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id) SELECT eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id FROM systems_import;
 FLUSH TABLE systems;
 
 --
