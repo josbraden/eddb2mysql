@@ -20,4 +20,8 @@ FLUSH TABLE systems;
 -- Cleanup import data
 DROP TABLE systems_import;
 
--- TODO optimize systems table, rebuild primary index
+-- Re-index and optimize system table
+-- Probably only needs to happen every other month or so, but keeping on every update for now
+SET @newid=0;
+UPDATE systems SET id=(@newid:=@newid+1) ORDER BY id;
+OPTIMIZE TABLE systems;

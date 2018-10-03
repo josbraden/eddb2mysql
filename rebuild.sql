@@ -55,4 +55,7 @@ FLUSH TABLE systems;
 --
 DROP TABLE factions_import,listings_import,systems_import;
 
--- TODO see if table optimization would be benificial at all at this stage
+--
+-- Optimize new tables post bulk-insert
+--
+OPTIMIZE TABLE factions,listings,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state,systems;
