@@ -4,7 +4,8 @@ Quick scripts to import data dumps from eddb.io into mysql
 
 ## Requirements
 
-- A working SQL server
+- A running, connectable SQL server (tested on MySQL and MariaDB)
+  - Must have a database with proper permissions and the ability to execute LOAD DATA INFILE LOCAL
 - Node.js is required for json2csv
 
 ## Usage
