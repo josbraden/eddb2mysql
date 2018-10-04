@@ -1,6 +1,6 @@
 -- MySQL dump 10.16  Distrib 10.1.34-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: ed
+-- Host: localhost    Database: ed_dev
 -- ------------------------------------------------------
 -- Server version	10.1.34-MariaDB-0ubuntu0.18.04.1
 
@@ -38,6 +38,42 @@ CREATE TABLE `allegiance` (
 LOCK TABLES `allegiance` WRITE;
 /*!40000 ALTER TABLE `allegiance` DISABLE KEYS */;
 /*!40000 ALTER TABLE `allegiance` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `commodities`
+--
+
+DROP TABLE IF EXISTS `commodities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `commodities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `eddb_id` int(11) NOT NULL,
+  `name` mediumtext NOT NULL,
+  `catagory_id` int(11) NOT NULL,
+  `average_price` int(11) NOT NULL,
+  `is_rare` tinyint(1) NOT NULL,
+  `max_buy_price` int(11) DEFAULT NULL,
+  `max_sell_price` int(11) DEFAULT NULL,
+  `min_buy_price` int(11) DEFAULT NULL,
+  `min_sell_price` int(11) DEFAULT NULL,
+  `buy_price_lower_average` int(11) DEFAULT NULL,
+  `sell_price_upper_average` int(11) DEFAULT NULL,
+  `is_non_marketable` int(11) NOT NULL,
+  `ed_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `commodities`
+--
+
+LOCK TABLES `commodities` WRITE;
+/*!40000 ALTER TABLE `commodities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `commodities` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -153,6 +189,41 @@ CREATE TABLE `listings` (
 LOCK TABLES `listings` WRITE;
 /*!40000 ALTER TABLE `listings` DISABLE KEYS */;
 /*!40000 ALTER TABLE `listings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `modules`
+--
+
+DROP TABLE IF EXISTS `modules`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `modules` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `eddb_id` int(11) NOT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `class` int(11) DEFAULT NULL,
+  `rating` char(1) DEFAULT NULL,
+  `price` int(11) DEFAULT NULL,
+  `weapon_mode` mediumtext,
+  `missile_type` mediumtext,
+  `name` mediumtext,
+  `belongs_to` mediumtext,
+  `ed_id` int(11) DEFAULT NULL,
+  `ed_symbol` mediumtext,
+  `ship` mediumtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modules`
+--
+
+LOCK TABLES `modules` WRITE;
+/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
+/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -332,4 +403,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-02 13:55:16
+-- Dump completed on 2018-10-04 17:42:26
