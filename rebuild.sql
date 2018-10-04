@@ -18,11 +18,14 @@ SOURCE ed_import_schema.sql;
 
 --
 -- Load CSVs into import tables
+-- TODO switch to direct field insert instead of using import tables
 --
 LOAD DATA LOCAL INFILE 'factions.csv' INTO TABLE factions_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'listings.csv' INTO TABLE listings_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'systems.csv' INTO TABLE systems_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 FLUSH TABLE factions_import,listings_import,systems_import;
+
+-- TODO build commodities and modules tables from CSVs here
 
 --
 -- Build non-system auxiliary tables (factions and listings)
