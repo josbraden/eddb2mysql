@@ -16,6 +16,40 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `commodities_import`
+--
+
+DROP TABLE IF EXISTS `commodities_import`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `commodities_import` (
+  `eddb_id` int(11) NOT NULL,
+  `name` mediumtext NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `average_price` int(11) NOT NULL,
+  `is_rare` tinyint(1) NOT NULL,
+  `max_buy_price` int(11) NOT NULL,
+  `max_sell_price` int(11) NOT NULL,
+  `min_buy_price` int(11) NOT NULL,
+  `min_sell_price` int(11) NOT NULL,
+  `buy_price_lower_average` int(11) NOT NULL,
+  `sell_price_upper_average` int(11) NOT NULL,
+  `is_non_marketable` int(11) NOT NULL,
+  `ed_id` int(11) NOT NULL,
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `commodities_import`
+--
+
+LOCK TABLES `commodities_import` WRITE;
+/*!40000 ALTER TABLE `commodities_import` DISABLE KEYS */;
+/*!40000 ALTER TABLE `commodities_import` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `factions_import`
 --
 
@@ -80,6 +114,39 @@ LOCK TABLES `listings_import` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `modules_import`
+--
+
+DROP TABLE IF EXISTS `modules_import`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `modules_import` (
+  `eddb_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `class` int(11) NOT NULL,
+  `rating` tinytext NOT NULL,
+  `price` int(11) NOT NULL,
+  `weapon_mode` mediumtext NOT NULL,
+  `missile_type` mediumtext NOT NULL,
+  `name` mediumtext NOT NULL,
+  `belongs_to` mediumtext NOT NULL,
+  `ed_id` int(11) NOT NULL,
+  `ed_symbol` mediumtext NOT NULL,
+  `ship` mediumtext NOT NULL,
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `modules_import`
+--
+
+LOCK TABLES `modules_import` WRITE;
+/*!40000 ALTER TABLE `modules_import` DISABLE KEYS */;
+/*!40000 ALTER TABLE `modules_import` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `systems_import`
 --
 
@@ -138,4 +205,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-02 13:41:19
+-- Dump completed on 2018-10-04 20:02:38
