@@ -11,6 +11,7 @@
 --     systems.csv
 --     commodities.csv: generated from commodities.json
 --     modules.csv: generated from modules.json
+--     stations.csv: generated from stations.json
 
 --
 -- Import schemas to db
@@ -27,7 +28,8 @@ LOAD DATA LOCAL INFILE 'listings.csv' INTO TABLE listings_import FIELDS TERMINAT
 LOAD DATA LOCAL INFILE 'systems.csv' INTO TABLE systems_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'commodities.csv' INTO TABLE commodities_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'modules.csv' INTO TABLE modules_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
-FLUSH TABLE factions_import,listings_import,systems_import,commodities_import,modules_import;
+LOAD DATA LOCAL INFILE 'stations.csv' INTO TABLE stations_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+FLUSH TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import;
 
 --
 -- Build non-system auxiliary tables (factions and listings)
@@ -37,6 +39,13 @@ INSERT IGNORE INTO listings(eddb_id,station_id,commodity_id,supply,supply_bracke
 INSERT IGNORE INTO commodities(eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id) SELECT * FROM commodities_import;
 INSERT IGNORE INTO modules(eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship) SELECT * FROM modules_import;
 FLUSH TABLE factions,listings,commodities,modules;
+
+--
+-- Build stations and stations auxiliary table(s)
+--
+INSERT IGNORE INTO stations(eddb_id,name,system_id,updated_at,max_landing_pad_size,distance_to_star,government_id,allegiance_id,state_id,type_id,has_blackmarket,has_market,has_refuel,has_repair,has_rearm,has_outfitting,has_shipyard,has_docking,has_commodities,shipyard_updated_at,outfitting_updated_at,market_updated_at,is_planetary,settlement_size_id,settlement_size,settlement_security_id,body_id,controlling_minor_faction_id) SELECT * FROM stations_import;
+INSERT IGNORE INTO type(type_id,type) SELECT DISTINCT type_id,type FROM stations_import;
+FLUSH TABLE stations,type;
 
 --
 -- Build system auxiliary tables
@@ -60,7 +69,7 @@ FLUSH TABLE systems;
 --
 -- Drop import tables
 --
-DROP TABLE factions_import,listings_import,systems_import,commodities_import,modules_import;
+DROP TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import;
 
 --
 -- Optimize new tables post bulk-insert
