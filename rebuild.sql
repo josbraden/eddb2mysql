@@ -43,7 +43,7 @@ FLUSH TABLE factions,listings,commodities,modules;
 --
 -- Build stations and stations auxiliary table(s)
 --
-INSERT IGNORE INTO stations(eddb_id,name,system_id,updated_at,max_landing_pad_size,distance_to_star,government_id,allegiance_id,state_id,type_id,has_blackmarket,has_market,has_refuel,has_repair,has_rearm,has_outfitting,has_shipyard,has_docking,has_commodities,shipyard_updated_at,outfitting_updated_at,market_updated_at,is_planetary,settlement_size_id,settlement_size,settlement_security_id,body_id,controlling_minor_faction_id) SELECT * FROM stations_import;
+INSERT IGNORE INTO stations(eddb_id,name,system_id,updated_at,max_landing_pad_size,distance_to_star,government_id,allegiance_id,state_id,type_id,has_blackmarket,has_market,has_refuel,has_repair,has_rearm,has_outfitting,has_shipyard,has_docking,has_commodities,shipyard_updated_at,outfitting_updated_at,market_updated_at,is_planetary,settlement_size_id,settlement_size,settlement_security_id,body_id,controlling_minor_faction_id) SELECT eddb_id,name,system_id,updated_at,max_landing_pad_size,distance_to_star,government_id,allegiance_id,state_id,type_id,has_blackmarket,has_market,has_refuel,has_repair,has_rearm,has_outfitting,has_shipyard,has_docking,has_commodities,shipyard_updated_at,outfitting_updated_at,market_updated_at,is_planetary,settlement_size_id,settlement_size,settlement_security_id,body_id,controlling_minor_faction_id FROM stations_import;
 INSERT IGNORE INTO type(type_id,type) SELECT DISTINCT type_id,type FROM stations_import;
 FLUSH TABLE stations,type;
 
