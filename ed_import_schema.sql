@@ -164,6 +164,7 @@ CREATE TABLE `stations_import` (
   `allegiance_id` int(11) NOT NULL,
   `state_id` int(11) NOT NULL,
   `type_id` int(11) NOT NULL,
+  `type` mediumtext NOT NULL,
   `has_blackmarket` tinytext NOT NULL,
   `has_market` tinytext NOT NULL,
   `has_refuel` tinytext NOT NULL,
@@ -254,4 +255,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 10:40:55
+-- Dump completed on 2018-10-05 11:11:15
