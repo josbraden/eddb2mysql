@@ -352,6 +352,57 @@ LOCK TABLES `state` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `stations`
+--
+
+DROP TABLE IF EXISTS `stations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `eddb_id` int(11) NOT NULL,
+  `name` mediumtext NOT NULL,
+  `system_id` int(11) NOT NULL,
+  `updated_at` int(11) NOT NULL,
+  `max_landing_pad_size` tinytext NOT NULL,
+  `distance_to_star` int(11) NOT NULL,
+  `government_id` int(11) NOT NULL,
+  `allegiance_id` int(11) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `type_id` int(11) NOT NULL,
+  `has_blackmarket` tinytext NOT NULL,
+  `has_market` tinytext NOT NULL,
+  `has_refuel` tinytext NOT NULL,
+  `has_repair` tinytext NOT NULL,
+  `has_rearm` tinytext NOT NULL,
+  `has_outfitting` tinytext NOT NULL,
+  `has_shipyard` tinytext NOT NULL,
+  `has_docking` tinytext NOT NULL,
+  `has_commodities` tinytext NOT NULL,
+  `shipyard_updated_at` int(11) NOT NULL,
+  `outfitting_updated_at` int(11) NOT NULL,
+  `market_updated_at` int(11) NOT NULL,
+  `is_planetary` tinytext NOT NULL,
+  `settlement_size_id` int(11) NOT NULL,
+  `settlement_size` int(11) NOT NULL,
+  `settlement_security_id` int(11) NOT NULL,
+  `body_id` int(11) NOT NULL,
+  `controlling_minor_faction_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stations`
+--
+
+LOCK TABLES `stations` WRITE;
+/*!40000 ALTER TABLE `stations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `stations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `systems`
 --
 
@@ -403,4 +454,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-04 20:08:47
+-- Dump completed on 2018-10-05 10:40:40
