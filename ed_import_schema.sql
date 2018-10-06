@@ -16,6 +16,56 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `bodies_import`
+--
+
+DROP TABLE IF EXISTS `bodies_import`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bodies_import` (
+  `eddb_id` int(11) NOT NULL,
+  `id64` int(11) NOT NULL,
+  `bodyId` int(11) NOT NULL,
+  `name` mediumtext NOT NULL,
+  `type` mediumtext NOT NULL,
+  `subType` mediumtext NOT NULL,
+  `offset` int(11) NOT NULL,
+  `distanceToArrival` int(11) NOT NULL,
+  `isMainStar` tinytext NOT NULL,
+  `isScoopable` tinytext NOT NULL,
+  `age` int(11) NOT NULL,
+  `spectralClass` tinytext NOT NULL,
+  `luminosity` tinytext NOT NULL,
+  `absoluteMagnitude` float NOT NULL,
+  `solarMasses` float NOT NULL,
+  `solarRadius` float NOT NULL,
+  `surfaceTemperature` float NOT NULL,
+  `orbitalPeriod` float NOT NULL,
+  `semiMajorAxis` float NOT NULL,
+  `orbitalEccentricity` float NOT NULL,
+  `orbitalInclination` float NOT NULL,
+  `argOfPeriapsis` float NOT NULL,
+  `rotationalPeriod` float NOT NULL,
+  `rotationalPeriodTidallyLocked` tinytext NOT NULL,
+  `axialTilt` float NOT NULL,
+  `updateTime` int(11) NOT NULL,
+  `systemId` int(11) NOT NULL,
+  `systemId64` int(11) NOT NULL,
+  `systemName` mediumtext NOT NULL,
+  UNIQUE KEY `eddb_id` (`eddb_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bodies_import`
+--
+
+LOCK TABLES `bodies_import` WRITE;
+/*!40000 ALTER TABLE `bodies_import` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bodies_import` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `commodities_import`
 --
 
@@ -255,4 +305,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-05 11:11:15
+-- Dump completed on 2018-10-06 17:01:12
