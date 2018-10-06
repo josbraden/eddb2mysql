@@ -29,7 +29,8 @@ LOAD DATA LOCAL INFILE 'systems.csv' INTO TABLE systems_import FIELDS TERMINATED
 LOAD DATA LOCAL INFILE 'commodities.csv' INTO TABLE commodities_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'modules.csv' INTO TABLE modules_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'stations.csv' INTO TABLE stations_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
-FLUSH TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import;
+LOAD DATA LOCAL INFILE 'bodies.csv' INTO TABLE bodies_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+FLUSH TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import,bodies_import;
 
 --
 -- Build non-system auxiliary tables (factions and listings)
@@ -61,17 +62,23 @@ INSERT IGNORE INTO state(state_id,state) SELECT DISTINCT state_id,state FROM sys
 FLUSH TABLE allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state;
 
 --
--- Build system table, this is the big table
+-- Build system table
 --
 INSERT IGNORE INTO systems(eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id) SELECT eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id FROM systems_import;
 FLUSH TABLE systems;
 
 --
+-- Build bodies table
+--
+INSERT IGNORE INTO bodies(eddb_id,id64,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId,systemId64,systemName) SELECT * FROM bodies_import;
+FLUSH TABLE bodies;
+
+--
 -- Drop import tables
 --
-DROP TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import;
+DROP TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import,bodies_import;
 
 --
 -- Optimize new tables post bulk-insert
 --
-OPTIMIZE TABLE factions,listings,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state,systems,commodities,modules;
+OPTIMIZE TABLE factions,listings,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state,systems,commodities,modules,stations,bodies;
