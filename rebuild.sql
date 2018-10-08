@@ -12,6 +12,7 @@
 --     commodities.csv: generated from commodities.json
 --     modules.csv: generated from modules.json
 --     stations.csv: generated from stations.json
+--     bodies.csv: generated from bodies.json, pulled from EDSM as EDDB doesn't provide this data anymore
 
 --
 -- Import schemas to db
