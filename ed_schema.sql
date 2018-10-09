@@ -116,7 +116,8 @@ CREATE TABLE `commodities` (
   `is_non_marketable` int(11) NOT NULL,
   `ed_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `eddb_id` (`eddb_id`)
+  UNIQUE KEY `eddb_id` (`eddb_id`),
+  FULLTEXT KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -141,7 +142,8 @@ CREATE TABLE `controlling_minor_faction` (
   `controlling_minor_faction_id` int(11) NOT NULL,
   `controlling_minor_faction` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `controlling_minor_faction_id` (`controlling_minor_faction_id`)
+  UNIQUE KEY `controlling_minor_faction_id` (`controlling_minor_faction_id`),
+  FULLTEXT KEY `controlling_minor_faction` (`controlling_minor_faction`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -266,7 +268,8 @@ CREATE TABLE `modules` (
   `ed_symbol` mediumtext NOT NULL,
   `ship` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `eddb_id` (`eddb_id`)
+  UNIQUE KEY `eddb_id` (`eddb_id`),
+  FULLTEXT KEY `ed_symbol` (`ed_symbol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -442,7 +445,8 @@ CREATE TABLE `stations` (
   `body_id` int(11) NOT NULL,
   `controlling_minor_faction_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `eddb_id` (`eddb_id`)
+  UNIQUE KEY `eddb_id` (`eddb_id`),
+  FULLTEXT KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -532,4 +536,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-09 12:07:35
+-- Dump completed on 2018-10-09 13:00:53
