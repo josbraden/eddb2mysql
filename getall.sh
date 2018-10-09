@@ -33,4 +33,4 @@ fi
 if [ ! -f ./bodies.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://www.edsm.net/dump/bodies.json | gzip -dc | json2csv/bin/json2csv.js -f "id","id64","bodyId","name","type","subType","offset","distanceToArrival","isMainStar","isScoopable","age","spectralClass","luminosity","absoluteMagnitude","solarMasses","solarRadius","surfaceTemperature","orbitalPeriod","semiMajorAxis","orbitalEccentricity","orbitalInclination","argOfPeriapsis","rotationalPeriod","rotationalPeriodTidallyLocked","axialTilt","updateTime","systemId","systemId64","systemName" > bodies.csv
 fi
-echo "File download complete, run rebuil.sql to build the database."
+echo "File download complete, run rebuild.sql to build the database."
