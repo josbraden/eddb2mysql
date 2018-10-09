@@ -79,7 +79,8 @@ CREATE TABLE `bodies` (
   `systemId64` int(11) NOT NULL,
   `systemName` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `eddb_id` (`eddb_id`)
+  UNIQUE KEY `eddb_id` (`eddb_id`),
+  FULLTEXT KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -531,4 +532,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-06 17:00:51
+-- Dump completed on 2018-10-09 12:07:35
