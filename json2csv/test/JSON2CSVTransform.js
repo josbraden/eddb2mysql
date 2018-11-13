@@ -3,7 +3,31 @@
 const Readable = require('stream').Readable;
 const Json2csvTransform = require('../lib/json2csv').Transform;
 
-module.exports = (testRunner, jsonFixtures, csvFixtures) => {
+module.exports = (testRunner, jsonFixtures, csvFixtures, inMemoryJsonFixtures) => {
+  testRunner.add('should handle object mode', (t) => {
+    const input = new Readable({ objectMode: true });
+    input._read = () => {};
+    inMemoryJsonFixtures.default.forEach(item => input.push(item));
+    input.push(null);
+
+    const opts = {
+      fields: ['carModel', 'price', 'color', 'transmission']
+    };
+    const transformOpts = { readableObjectMode: true, writableObjectMode: true };
+
+    const transform = new Json2csvTransform(opts, transformOpts);
+    const processor = input.pipe(transform);
+
+    let csv = '';
+    processor
+      .on('data', chunk => (csv += chunk.toString()))
+      .on('end', () => {
+        t.equal(csv, csvFixtures.ndjson);
+        t.end();
+      })
+      .on('error', err => t.notOk(true, err.message));
+  });
+
   testRunner.add('should handle ndjson', (t) => {
     const opts = {
       fields: ['carModel', 'price', 'color', 'transmission'],
@@ -220,7 +244,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       .on('error', err => t.notOk(true, err.message));
   });
 
-  testRunner.add('should output keep fields order', (t) => {
+  testRunner.add('should output fields in the order provided', (t) => {
     const opts = {
       fields: ['price', 'carModel']
     };
@@ -278,6 +302,43 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
         t.end();
       })
       .on('error', err => t.notOk(true, err.message));
+  });
+
+
+
+  testRunner.add('should error on invalid \'fields\' property', (t) => {
+    const opts = {
+      fields: [ { value: 'price', stringify: true }, () => {} ]
+    };
+
+    try {
+      const transform = new Json2csvTransform(opts);
+      jsonFixtures.default().pipe(transform);
+
+      t.notOk(true);
+    } catch(error) {
+      t.equal(error.message, 'Invalid field info option. ' + JSON.stringify(opts.fields[1]));
+    }
+    t.end();
+  });
+
+  testRunner.add('should error on invalid \'fields.value\' property', (t) => {
+    const opts = {
+      fields: [
+        { value: row => row.price, stringify: true }, 
+        { label: 'Price USD', value: [] }
+      ]
+    };
+
+    try {
+      const transform = new Json2csvTransform(opts);
+      jsonFixtures.default().pipe(transform);
+
+      t.notOk(true);
+    } catch(error) {
+      t.equal(error.message, 'Invalid field info option. ' + JSON.stringify(opts.fields[1]));
+    }
+    t.end();
   });
 
   testRunner.add('should support nested properties selectors', (t) => {

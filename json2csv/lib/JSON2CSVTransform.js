@@ -17,7 +17,9 @@ class JSON2CSVTransform extends Transform {
     this._data = '';
     this._hasWritten = false;
 
-    if (this.opts.ndjson) {
+    if (this._readableState.objectMode) {
+      this.initObjectModeParse();
+    } else if (this.opts.ndjson) {
       this.initNDJSONParse();
     } else {
       this.initJSONParser();
@@ -28,9 +30,26 @@ class JSON2CSVTransform extends Transform {
     }
 
     if (this.opts.fields) {
+      this.opts.fields = this.preprocessFieldsInfo(this.opts.fields);
       this.pushHeader();
     }
+  }
 
+  /**
+   * Init the transform with a parser to process data in object mode.
+   * It receives JSON objects one by one and send them to `pushLine for processing.
+   */
+  initObjectModeParse() {
+    const transform = this;
+
+    this.parser = {
+      write(line) {
+        transform.pushLine(line);
+      },
+      getPendingData() {
+        return undefined;
+      }
+    };
   }
 
   /**
@@ -150,7 +169,7 @@ class JSON2CSVTransform extends Transform {
    */
   pushHeader() {
     if (this.opts.header) {
-      const header = this.getHeader(this.opts);
+      const header = this.getHeader();
       this.emit('header', header);
       this.push(header);
       this._hasWritten = true;
@@ -166,7 +185,7 @@ class JSON2CSVTransform extends Transform {
     const processedData = this.preprocessRow(data);
     
     if (!this._hasWritten) {
-      this.opts.fields = this.opts.fields || Object.keys(processedData[0]);
+      this.opts.fields = this.opts.fields || this.preprocessFieldsInfo(Object.keys(processedData[0]));
       this.pushHeader();
     }
 
