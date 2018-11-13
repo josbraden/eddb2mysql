@@ -28,11 +28,25 @@ See the [CHANGELOG] for details about the latest release.
 
 ## How to install
 
+You can install json2csv as a dependency using NPM.
+
 ```bash
 # Global so it can be call from anywhere
 $ npm install -g json2csv
 # or as a dependency of a project
 $ npm install json2csv --save
+```
+
+Also, if you are loading json2csv directly to the browser you can pull it directly from the CDN.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/json2csv"></script>
+```
+
+By default, the above script will get the latest release of json2csv. You can also specify a specific version:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/json2csv@4.2.1"></script>
 ```
 
 ## Command Line Interface
@@ -105,18 +119,20 @@ carModel,price,color
 "Porsche",30000,"green"
 ```
 
-Same result will be obtained using passing the fields as a file.
+Same result will be obtained passing the fields config as a file.
 
 ```bash
-$ json2csv -i input.json -l fieldList.txt -o out.csv
+$ json2csv -i input.json -c fieldsConfig.json -o out.csv
 ```
 
-where the file `fieldList.txt` contains
+where the file `fieldsConfig.json` contains
 
-```
-carModel
-price
-color
+```json
+[
+  "carModel",
+  "price",
+  "color"
+]
 ```
 
 #### Read input from stdin
@@ -229,6 +245,23 @@ json2csv
   .on('header', header => console.log(header))
   .on('line', line => console.log(line))
   .on('error', err => console.log(err));
+```
+
+The stream API can also work on object mode. This is useful when you have an input stream in object mode or if you are getting JSON objects one by one and want to convert them to CSV as they come.
+
+```javascript
+    const input = new Readable({ objectMode: true });
+    input._read = () => {};
+    // myObjectEmitter is just a fake example representing anything that emit objects.
+    myObjectEmitter.on('object', obj => input.push(obj));
+    // Pushing a null close the stream
+    myObjectEmitter.end(()) => input.push(null));
+
+    const opts = {};
+    const transformOpts = { objectMode: true };
+
+    const json2csv = new Json2csvTransform(opts, transformOpts);
+    const processor = input.pipe(transform).pipe(output);
 ```
 
 ### Javascript module examples
