@@ -16,17 +16,15 @@ EDSM is used for the bodies table, all other data including systems and stations
 
 ## New Database Setup
 
-1. Download the data dump files: run getall.sh to automatically download and convert the data files from JSON to CSV
-2. Run the rebuild.sql script against the database to use, e.g:
+To set up the database, run rebuild.sh. This script downloads the data files from eddb.io and edsm.net and runs the rebuild.sql script to populate the db. For the script to automatically connect to MySQL, put your connection info in mysqlinfo.txt, see mysqlinfo-example.txt for more information.
+
+If you opt to not use mysqlinfo.txt, run rebuild.sh to download the data files, then run the rebuild script against your database manually, e.g:
 
 `mysql -u root -p ed < rebuild.sql`
 
 ## Update Existing Database
 
-1. Run getupdate.sh to fetch recently changed systems, bodies, and market listings
-2. Run update.sql against the existing database
-
-Recently changed systems and bodies are update once a week on EDDB and EDSM. The listings table saw ~10% change the first week of October 2018.
+Recently changed systems and bodies are update once a week on EDDB and EDSM. To update an existing database, run updateweekly.sh. This script update the listings table as well as the bodies and systems tables.
 
 Currently the update script doesn't check to see if, for example, a new allegiance has been formed. In the case of something in the auxiliary tables get added/removed/modified, the easiest recourse is to rebuild the database. Since the DB is pretty small it hopefully isn't that big a deal.
 
