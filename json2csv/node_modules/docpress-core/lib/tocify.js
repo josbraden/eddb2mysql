@@ -8,6 +8,7 @@ const assign = Object.assign
 
 const slugify = require('./slugify')
 const tocifyPage = require('./tocify_page')
+const externalSource = require('./external_source')
 
 /**
  * Internal: builds the table of contents out of `markdown` text.
@@ -216,6 +217,10 @@ function anchorize (source) {
  */
 
 function absolutify (source, root) {
+  if (externalSource(source)) {
+    return { source }
+  }
+
   if (source.substr(0, 1) !== '/') {
     source = normalize(root + '/' + source)
   }

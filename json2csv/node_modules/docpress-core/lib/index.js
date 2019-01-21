@@ -10,6 +10,7 @@ const fixHtml = require('./fix_html')
 const stripMarkdown = require('./helpers/strip_markdown')
 const md = require('./helpers/markdown')
 const memoize = require('./memoize')
+const externalSource = require('./external_source')
 
 const assign = Object.assign
 
@@ -223,7 +224,8 @@ function renderMarkdown (files, ms, done) {
 
   // render each page
   each(pages, (page, fname) => {
-    const file = files[page.source]
+    const file = externalSource(page.source) ? {contents: ''} : files[page.source]
+
     const contents = file.contents.toString()
     const mdOptions = ms.metadata().markdown
 
@@ -281,7 +283,7 @@ function cleanFiles (files, ms, done) {
 
 function verifyIndex (index, files) {
   each(index, (file, url) => {
-    if (!files[file.source]) {
+    if (!files[file.source] && !externalSource(url)) {
       throw new Error(`Invalid reference '${file.source}'`)
     }
   })

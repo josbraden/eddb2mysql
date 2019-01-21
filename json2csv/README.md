@@ -176,7 +176,7 @@ The programatic APIs take a configuration object very equivalent to the CLI opti
 - `ndjson` - Only effective on the streaming API. Indicates that data coming through the stream is NDJSON.
 - `unwind` - Array of Strings, creates multiple rows from a single JSON document similar to MongoDB's $unwind
 - `unwindBlank` - Boolean, unwind using blank values instead of repeating data.
-- `flatten` - Boolean, flattens nested JSON using [flat]. Defaults to `false`.
+- `flatten` - Boolean, flattens nested objects. Defaults to `false`.
 - `flattenSeparator` - String, separator to use between nested JSON keys when `flatten` option enabled. Defaults to `.` if not specified.
 - `defaultValue` - String, default value to use when missing data. Defaults to `<empty>` if not specified. (Overridden by `fields[].default`)
 - `quote` - String, quote around cell values and column names. Defaults to `"` if not specified.
@@ -724,4 +724,3 @@ See [LICENSE.md].
 [dev-badge-url]: https://david-dm.org/zemirco/json2csv
 [CHANGELOG]: https://github.com/zemirco/json2csv/blob/master/CHANGELOG.md
 [LICENSE.md]: https://github.com/zemirco/json2csv/blob/master/LICENSE.md
-[flat]: https://www.npmjs.com/package/flat

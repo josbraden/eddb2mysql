@@ -1,3 +1,22 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/docpress/docpress-core/compare/0.7.1...0.8.0) (2018-04-16)
+
+
+### Bug Fixes
+
+* update marked for security ([3cc193c](https://github.com/docpress/docpress-core/commit/3cc193c))
+
+
+### Features
+
+* Allow external links as pages ([#198](https://github.com/docpress/docpress-core/issues/198)) ([d931977](https://github.com/docpress/docpress-core/commit/d931977))
+
+
+
 <a name="0.7.1"></a>
 ## 0.7.1 (2016-10-01)
 
@@ -224,6 +243,3 @@
 * Use each(pages, page) ([6c0dc8b](https://github.com/docpress/docpress-core/commit/6c0dc8b))
 * Use markdown-it and fix ID problem ([c804930](https://github.com/docpress/docpress-core/commit/c804930))
 * Validate that pages exist ([cf8354c](https://github.com/docpress/docpress-core/commit/cf8354c))
-
-
-
