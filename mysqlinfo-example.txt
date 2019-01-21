@@ -1,0 +1,5 @@
+# Copy this file to mysqlinfo.txt and edit the values to your environment
+mysqluser="ed"
+mysqlpass="bigpassword"
+mysqlhost="127.0.0.1"
+mysqldb="ed"
