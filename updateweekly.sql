@@ -1,6 +1,6 @@
 --
 -- Script to update the database with new data
--- Delta fiels, systems_recently.csv and bodies7days.json, are released weekly
+-- Delta fields, systems_recently.csv and bodies7days.json, are released weekly
 -- The listings table is also rebuilt, it sees ~10% change per week
 -- Also requires the ed_import_schema.sql file
 --
