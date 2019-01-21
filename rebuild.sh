@@ -3,6 +3,7 @@
 # Script needs to:
 # 1. Download required files from web
 # 2. Convert JSON files to CSV for MySQL LOAD using json2csv
+# 3. Run the mysql rebuild script
 #
 # Downloads data files from web
 echo "Downloading data files"
@@ -33,4 +34,12 @@ fi
 if [ ! -f ./bodies.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://www.edsm.net/dump/bodies.json | gzip -dc | json2csv/bin/json2csv.js -f "id","id64","bodyId","name","type","subType","offset","distanceToArrival","isMainStar","isScoopable","age","spectralClass","luminosity","absoluteMagnitude","solarMasses","solarRadius","surfaceTemperature","orbitalPeriod","semiMajorAxis","orbitalEccentricity","orbitalInclination","argOfPeriapsis","rotationalPeriod","rotationalPeriodTidallyLocked","axialTilt","updateTime","systemId","systemId64","systemName" > bodies.csv
 fi
-echo "File download complete, run rebuild.sql to build the database."
+echo "File download complete."
+# Load data into MySQL
+if [ ! -f ./mysqlinfo.txt ]; then
+	echo "MySQL info not found, please run rebuild.sql manually to build the database"
+	echo "e.g.: $ mysql -u root -p -h localhost ed < rebuild.sql"
+else
+	source mysqlinfo.txt
+	mysql -u $mysqluser -p$mysqlpass -h $mysqhost $mysqldb < rebuild.sql
+fi
