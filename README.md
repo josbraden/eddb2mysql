@@ -18,7 +18,7 @@ EDSM is used for the bodies table, all other data including systems and stations
 
 To set up the database, run rebuild.sh. This script downloads the data files from eddb.io and edsm.net and runs the rebuild.sql script to populate the db. For the script to automatically connect to MySQL, put your connection info in mysqlinfo.txt, see mysqlinfo-example.txt for more information.
 
-If you opt to not use mysqlinfo.txt, run rebuild.sh to download the data files, then run the rebuild script against your database manually, e.g:
+If you opt to not use mysqlinfo.txt, run rebuild.sh to download the data files, then run the rebuild.sql script against your database manually, e.g:
 
 `mysql -u root -p ed < rebuild.sql`
 
@@ -34,7 +34,7 @@ A daily script is included to (optionally) recreate the market listings table on
 
 ```
 # Update Elite Dangerous database
-## Download weekly updates (bodies, systems, listings)
+# Download weekly updates (bodies, systems, listings)
 @weekly cd eddb2mysql && updateweekly.sh > /dev/null 2>&1
 # Uncomment below to update the listings table every day except when the weekly job runs
 #0 0 * * 1-6 cd eddb2mysql && updatedaily.sh > /dev/null 2>&1
@@ -44,6 +44,7 @@ A daily script is included to (optionally) recreate the market listings table on
 ```
 
 ## Contrib
+
 ### json2csv (zemirco/json2csv)
 
 https://github.com/zemirco/json2csv
