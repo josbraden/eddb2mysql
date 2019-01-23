@@ -11,5 +11,5 @@ if [ ! -f ./mysqlinfo.txt ]; then
 	echo "e.g.: $ mysql -u root -p -h localhost ed < updateweekly.sql"
 else
 	source mysqlinfo.txt
-	mysql -u $mysqluser -p$mysqlpass -h $mysqhost $mysqldb < updateweekly.sql
+	mysql -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb < updateweekly.sql
 fi
