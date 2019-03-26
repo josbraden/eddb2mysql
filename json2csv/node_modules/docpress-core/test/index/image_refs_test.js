@@ -40,6 +40,6 @@ describe('index/image refs:', function () {
   })
 
   it('preserves the image', function () {
-    expect(this.files['images/screenshot.png']).toExist()
+    expect(this.files['images/screenshot.png']).toBeDefined()
   })
 })

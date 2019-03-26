@@ -12,14 +12,14 @@ var mime = require('mime-types');
 var path = require('path');
 var awaitFinished = RSVP.denodeify(require('on-finished'));
 var destroy = require('destroy');
-var compress = require('compression')();
 
 var Responder = function(req, res, options) {
   this.req = req;
   this.res = res;
   this.provider = options.provider;
   this.config = options.config || {};
-  this.gzip = options.gzip;
+  this.rewriters = options.rewriters || {};
+  this.compressor = options.compressor;
 };
 
 Responder.prototype.isNotModified = function(stats) {
@@ -55,14 +55,18 @@ Responder.prototype._handle = function(item) {
     return this.handleStack(item);
   } else if (_.isString(item)) {
     return this.handleFile({file: item});
-  } else if (_.isObject(item)) {
+  } else if (_.isPlainObject(item)) {
     if (item.file) {
       return this.handleFile(item);
     } else if (item.redirect) {
       return this.handleRedirect(item);
+    } else if (item.rewrite) {
+      return this.handleRewrite(item);
     } else if (item.data) {
       return this.handleData(item);
     }
+  } else if (_.isFunction(item)) {
+    return this.handleMiddleware(item);
   }
 
   return RSVP.reject(new Error(JSON.stringify(item) + ' is not a recognized responder directive'));
@@ -114,8 +118,9 @@ Responder.prototype.handleFileStream = function(file, result) {
   if (result.modified) {
     this.res.setHeader('Last-Modified', new Date(result.modified).toUTCString());
   }
-  if (this.gzip) {
-    compress(this.req, this.res, function() {
+
+  if (this.compressor) {
+    this.compressor(this.req, this.res, function() {
       result.stream.pipe(self.res);
     });
   } else {
@@ -142,6 +147,29 @@ Responder.prototype.handleRedirect = function(redirect) {
   this.res.setHeader('Content-Type', 'text/html; charset=utf-8');
   this.res.end('Redirecting to ' + redirect.redirect);
   return RSVP.resolve(true);
+};
+
+Responder.prototype.handleMiddleware = function(middleware) {
+  var self = this;
+  return new RSVP.Promise(function(resolve) {
+    middleware(self.req, self.res, function() { resolve(false); });
+  });
+};
+
+Responder.prototype.handleRewrite = function(item) {
+  var self = this;
+  if (item.rewrite.destination) {
+    return self.handleFile({file: item.rewrite.destination});
+  }
+
+  for (var key in this.rewriters) {
+    if (item.rewrite[key]) {
+      return this.rewriters[key](item.rewrite, this).then(function(result) {
+        return self._handle(result);
+      });
+    }
+  }
+  return RSVP.reject(new Error('Unable to find a matching rewriter for ' + JSON.stringify(item.rewrite)));
 };
 
 Responder.prototype.handleData = function(data) {

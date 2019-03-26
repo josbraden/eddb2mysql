@@ -21,6 +21,6 @@ describe('index/docpress.json:', function () {
   })
 
   it('removes docpress.json', function () {
-    expect(this.files['docpress.json']).toNotExist()
+    expect(this.files['docpress.json']).not.toBeDefined()
   })
 })

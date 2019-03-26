@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [4.4.0](https://github.com/zemirco/json2csv/compare/v4.3.5...v4.4.0) (2019-03-25)
+
+
+### Bug Fixes
+
+* audit deps ([3b1ba07](https://github.com/zemirco/json2csv/commit/3b1ba07))
+* backslash type ([#369](https://github.com/zemirco/json2csv/issues/369)) ([389891a](https://github.com/zemirco/json2csv/commit/389891a))
+* objectMode example typo in README.md ([#364](https://github.com/zemirco/json2csv/issues/364)) ([28f8f5d](https://github.com/zemirco/json2csv/commit/28f8f5d))
+* Simplify object mode test ([#370](https://github.com/zemirco/json2csv/issues/370)) ([29bbad1](https://github.com/zemirco/json2csv/commit/29bbad1))
+* typo in fixture name ([#371](https://github.com/zemirco/json2csv/issues/371)) ([9eebf40](https://github.com/zemirco/json2csv/commit/9eebf40))
+
+
+### Features
+
+* Performance improvements and new async api ([#360](https://github.com/zemirco/json2csv/issues/360)) ([d59dea1](https://github.com/zemirco/json2csv/commit/d59dea1))
+
+
+
+<a name="4.3.5"></a>
+## [4.3.5](https://github.com/zemirco/json2csv/compare/v4.3.4...v4.3.5) (2019-02-22)
+
+
+### Bug Fixes
+
+* audit deps ([3182707](https://github.com/zemirco/json2csv/commit/3182707))
+* unwind of nested fields ([#357](https://github.com/zemirco/json2csv/issues/357)) ([2d69281](https://github.com/zemirco/json2csv/commit/2d69281))
+
+
+
+<a name="4.3.4"></a>
+## [4.3.4](https://github.com/zemirco/json2csv/compare/v4.3.3...v4.3.4) (2019-02-11)
+
+
+### Bug Fixes
+
+* issue with fields.value function not receiving correct fields ([#353](https://github.com/zemirco/json2csv/issues/353)) ([851c02f](https://github.com/zemirco/json2csv/commit/851c02f))
+
+
+
 <a name="4.3.3"></a>
 ## [4.3.3](https://github.com/zemirco/json2csv/compare/v4.3.2...v4.3.3) (2019-01-11)
 

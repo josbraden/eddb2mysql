@@ -50,6 +50,6 @@ describe('tocifyPage(): without stuff', function () {
   })
 
   it('renders titles', function () {
-    expect(output).toNotExist()
+    expect(output).not.toBeDefined()
   })
 })

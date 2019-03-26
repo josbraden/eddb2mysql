@@ -164,7 +164,7 @@ function buildIndex (files, ms, done) {
     } else {
       // 'docs/x/y' => 'x/y'
       const filename = fname.replace(docsExpr, '')
-        // make sure non-md files inside docs/ are preserved (images)
+      // make sure non-md files inside docs/ are preserved (images)
       if (filename !== fname && !fname.match(/\.md$/)) {
         file.filename = filename
         indexes.sources[fname] = filename
@@ -224,7 +224,7 @@ function renderMarkdown (files, ms, done) {
 
   // render each page
   each(pages, (page, fname) => {
-    const file = externalSource(page.source) ? {contents: ''} : files[page.source]
+    const file = externalSource(page.source) ? { contents: '' } : files[page.source]
 
     const contents = file.contents.toString()
     const mdOptions = ms.metadata().markdown

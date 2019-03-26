@@ -63,10 +63,10 @@ class Tocify {
   }
 
   run () {
+    var scope
     var re = { sections: [] }
     var crumbs = [scope]
     var current = re
-    var scope
     var i = 0
 
     this.tokens.forEach((token) => {

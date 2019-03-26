@@ -29,6 +29,6 @@ describe('index/no meta data:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['intro.html']).toExist()
+    expect(this.files['intro.html']).toBeDefined()
   })
 })

@@ -24,6 +24,6 @@ describe('index/auto index:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['index.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
   })
 })

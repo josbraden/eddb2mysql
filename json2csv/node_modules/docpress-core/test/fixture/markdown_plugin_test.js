@@ -22,6 +22,6 @@ describe('fixture/markdown plugin:', function () {
 
   it('makes markdown-it-decorate work', function () {
     expect(fx.read('_docpress/index.html'))
-       .toInclude('<h1 class="hello" id="my-project">')
+      .toContain('<h1 class="hello" id="my-project">')
   })
 })

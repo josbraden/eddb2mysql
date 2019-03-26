@@ -21,6 +21,6 @@ describe('fixture/root config:', function () {
   })
 
   it('reads config from root docpress.json', function () {
-    expect(app.metadata().custom).toExist()
+    expect(app.metadata().custom).toBeDefined()
   })
 })

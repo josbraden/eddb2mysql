@@ -1,46 +1,53 @@
 var asArray = require('./index.js');
-var test = require('tape');
+var namespace = require('tessed').namespace;
+var test = namespace('as array');
 
-test('returns the array passed in', function (t) {
+test('returns the array passed in', function (assert) {
+
   var arr = [1,2,3];
-  t.deepEqual(asArray(arr), [1,2,3], 'returned array');
-  t.end();
+  assert.deepEqual(asArray(arr), [1,2,3], 'returned array');
 });
 
-test('converts single item into array', function (t) {
+test('converts single item into array', function (assert) {
+
   var fn = function () {};
-  t.deepEqual(asArray(fn), [fn], 'returned array');
-  t.end();
+  assert.deepEqual(asArray(fn), [fn], 'returned array');
 });
 
-test('returns empty array with undefined passed in', function (t) {
-  t.deepEqual(asArray(), [], 'empty array');
-  t.end();
+test('returns empty array with undefined passed in', function (assert) {
+
+  assert.deepEqual(asArray(), [], 'empty array');
 });
 
-test('converts arguments variable with numbers into array', function (t) {
-  function tester () {
-    t.deepEqual(asArray(arguments), [1,2], 'converted to array');
-    t.end();
+test('converts arguments variable with numbers into array', function (assert) {
+
+  return function (end) {
+
+    function tester () {
+      assert.deepEqual(asArray(arguments), [1,2], 'converted to array');
+      end();
+    };
+
+    tester(1, 2);
   };
-  
-  tester(1, 2);
 });
 
-test('converts arguments variable with strings into array', function (t) {
-  function tester () {
-    t.deepEqual(asArray(arguments), ['arg1', 'arg2'], 'converted to array');
-    t.end();
+test('converts arguments variable with strings into array', function (assert) {
+
+  return function (end) {
+
+    function tester () {
+      assert.deepEqual(asArray(arguments), ['arg1', 'arg2'], 'converted to array');
+      end();
+    };
+
+    tester('arg1', 'arg2');
   };
-  
-  tester('arg1', 'arg2');
 });
 
-test('pulls the values from an object as the array', function (t) {
-  
+test('pulls the values from an object as the array', function (assert) {
+
   var dataArr = asArray({'0': 'value1', '1': 'value2'}, true);
-  
-  t.deepEqual(dataArr, ['value1', 'value2'], 'values as array');
-  t.end();
+  assert.deepEqual(dataArr, ['value1', 'value2'], 'values as array');
 });
 

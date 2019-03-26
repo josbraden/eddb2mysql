@@ -27,7 +27,7 @@ describe('index/missing pages:', function () {
   })
 
   it('works', function () {
-    expect(this.err).toExist()
+    expect(this.err).toBeDefined()
     expect(this.err.message).toEqual("Invalid reference 'docs/getting-started.md'")
   })
 })

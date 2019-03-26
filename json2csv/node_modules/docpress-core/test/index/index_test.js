@@ -33,10 +33,10 @@ describe('index:', function () {
 
   it('renders index.html', function () {
     const idx = this.files['index.html']
-    expect(idx).toBeAn('object')
+    expect(idx).toEqual(expect.any(Object))
     expect(idx.title).toEqual('Readme')
     expect(idx.contents).toEqual('<h1 id="hello">hello</h1>\n')
-    expect(idx.markdown).toBeA('string')
+    expect(idx.markdown).toEqual(expect.any(String))
     expect(idx.source).toEqual('README.md')
     expect(idx.slug).toEqual('index')
   })
@@ -48,13 +48,13 @@ describe('index:', function () {
     })
 
     it('renders.json', function () {
-      expect(this.toc.sections).toBeAn('array')
+      expect(this.toc.sections).toEqual(expect.any(Array))
       expect(this.toc.sections.length).toEqual(2)
     })
 
     it('renders the first section', function () {
       const section = this.toc.sections[0]
-      expect(section).toBeAn('object')
+      expect(section).toEqual(expect.any(Object))
       expect(section).toEqual({
         title: 'Readme',
         source: 'README.md',

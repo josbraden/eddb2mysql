@@ -1,6 +1,6 @@
 # as-array
 
-Make any value an array
+Make any value an array. No dependencies.
 
 ## Install
 
@@ -26,7 +26,7 @@ tester('arg1', 'arg2');
 ### asArray(data[, convertObject])
 
 * `data` - any data type to convert to an array
-* `convertObject` - OPTIONAL - `boolean` - pull values from object as array content
+* `convertObject` - OPTIONAL `boolean` - pull values from object as array content
 
 ## Run Tests
 

@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/docpress/docpress-core/compare/v0.8.0...v0.9.0) (2018-11-06)
+
+
+### Bug Fixes
+
+* update dependencies ([1923d85](https://github.com/docpress/docpress-core/commit/1923d85))
+
+
+### Features
+
+* Allow user to specify metalsmith `ignore` option ([#199](https://github.com/docpress/docpress-core/issues/199)) ([d9c2a9e](https://github.com/docpress/docpress-core/commit/d9c2a9e)), closes [#91](https://github.com/docpress/docpress-core/issues/91) [docpress/docpress#230](https://github.com/docpress/docpress/issues/230) [#197](https://github.com/docpress/docpress-core/issues/197)
+
+
+
 <a name="0.8.0"></a>
 # [0.8.0](https://github.com/docpress/docpress-core/compare/0.7.1...0.8.0) (2018-04-16)
 

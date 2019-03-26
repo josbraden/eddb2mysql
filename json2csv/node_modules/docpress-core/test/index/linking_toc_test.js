@@ -26,7 +26,7 @@ describe('index/linking toc:', function () {
   })
 
   it('renames index.md', function () {
-    expect(this.files['index-2.html']).toExist()
+    expect(this.files['index-2.html']).toBeDefined()
   })
 
   it('creates slugs', function () {

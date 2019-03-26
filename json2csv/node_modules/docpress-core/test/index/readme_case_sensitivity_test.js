@@ -24,6 +24,6 @@ describe('index/readme case sensitivity:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['index.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
   })
 })

@@ -21,6 +21,6 @@ describe('fixture/package config:', function () {
   })
 
   it('reads config from package.json', function () {
-    expect(app.metadata().custom).toExist()
+    expect(app.metadata().custom).toBeDefined()
   })
 })

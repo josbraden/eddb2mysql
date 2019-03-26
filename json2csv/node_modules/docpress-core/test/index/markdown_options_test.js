@@ -26,11 +26,11 @@ describe('index/markdown options:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['index.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
   })
 
   it('has typographic quotes', function () {
     expect(this.files['index.html'].contents)
-      .toInclude('&#x201C;Hello&#x201D;')
+      .toContain('&#x201C;Hello&#x201D;')
   })
 })

@@ -30,7 +30,7 @@ describe('index/toc with multiple anchors:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['intro.html']).toExist()
+    expect(this.files['intro.html']).toBeDefined()
   })
 
   it('sets .anchor', function () {

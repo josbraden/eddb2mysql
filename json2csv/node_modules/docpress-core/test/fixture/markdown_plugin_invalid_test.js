@@ -17,7 +17,7 @@ describe('fixture/markdown plugin invalid:', function () {
   })
 
   it('fails', function () {
-    expect(this.err).toExist()
+    expect(this.err).toBeDefined()
     expect(this.err.message).toEqual("Can't find module 'markdown-it-lalalala'")
   })
 })

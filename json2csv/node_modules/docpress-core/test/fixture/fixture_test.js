@@ -24,17 +24,17 @@ describe('fixture', function () {
   })
 
   it('outputs the right files for plugins', function () {
-    expect(this.files['index.html']).toExist()
-    expect(this.files['_docpress.json']).toExist()
-    expect(this.files['testing.html']).toExist()
-    expect(this.files['cleanup.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
+    expect(this.files['_docpress.json']).toBeDefined()
+    expect(this.files['testing.html']).toBeDefined()
+    expect(this.files['cleanup.html']).toBeDefined()
   })
 
   it('renders htmls', function () {
     expect(fx.read('_docpress/index.html').toLowerCase())
-      .toInclude('</h1>')
+      .toContain('</h1>')
     expect(fx.read('_docpress/testing.html').toLowerCase())
-      .toInclude('</h1>')
+      .toContain('</h1>')
   })
 
   it('leaves assets alone', function () {
@@ -53,15 +53,15 @@ describe('fixture', function () {
     })
 
     it('has index', function () {
-      expect(data.index).toExist()
+      expect(data.index).toBeDefined()
     })
 
     it('has toc', function () {
-      expect(data.toc).toExist()
+      expect(data.toc).toBeDefined()
     })
 
     it('has sources', function () {
-      expect(data.sources).toExist()
+      expect(data.sources).toBeDefined()
     })
   })
 

@@ -2,11 +2,12 @@
 
 const os = require('os');
 const lodashGet = require('lodash.get');
-const lodashSet = require('lodash.set');
+const { setProp, flattenReducer } = require('./utils');
 
 class JSON2CSVBase {
   constructor(opts) {
     this.opts = this.preprocessOpts(opts);
+    this.preprocessRow = this.memoizePreprocessRow();
   }
 
   /**
@@ -67,10 +68,11 @@ class JSON2CSVBase {
         }
 
         if (typeof fieldInfo.value === 'function') {
+          const label = fieldInfo.label || fieldInfo.value;
+          const field = { label, default: defaultValue };
           return {
-            label: fieldInfo.label || fieldInfo.value,
-            value: row => {
-              const field = { label: this.label, default: defaultValue };
+            label,
+            value(row) {
               const value = fieldInfo.value(row, field);
               return (value === null || value === undefined)
                 ? defaultValue
@@ -96,22 +98,39 @@ class JSON2CSVBase {
       .join(this.opts.delimiter);
   }
 
+  memoizePreprocessRow() {
+    if (this.opts.unwind && this.opts.unwind.length) {
+      if (this.opts.flatten) {
+        return function (row) {
+          return this.unwindData(row, this.opts.unwind)
+            .map(row => this.flatten(row, this.opts.flattenSeparator));
+        };
+      }
+      
+      return function (row) {
+        return this.unwindData(row, this.opts.unwind);
+      };
+    }
+    
+    if (this.opts.flatten) {
+      return function (row) {
+        return [this.flatten(row, this.opts.flattenSeparator)];
+      };
+    }
+    
+    return function (row) {
+      return [row];
+    };
+  }
+
   /**
    * Preprocess each object according to the give opts (unwind, flatten, etc.).
+   * The actual body of the function is dynamically set on the constructor by the
+   *  `memoizePreprocessRow` method after parsing the options.
    *
    * @param {Object} row JSON object to be converted in a CSV row
    */
-  preprocessRow(row) {
-    const processedRow = (this.opts.unwind && this.opts.unwind.length)
-      ? this.unwindData(row, this.opts.unwind)
-      : [row];
-
-    if (this.opts.flatten) {
-      return processedRow.map(row => this.flatten(row, this.opts.flattenSeparator));
-    }
-
-    return processedRow;
-  }
+  preprocessRow() {}
 
   /**
    * Create the content of a specific CSV row
@@ -168,7 +187,7 @@ class JSON2CSVBase {
       ? JSON.stringify(value)
       : value);
 
-    if (typeof value === 'object' && !/^"(.*)"$/.test(stringifiedValue)) {
+    if (typeof value === 'object' && !/^".*"$/.test(stringifiedValue)) {
       // Stringify object that are not stringified to a
       // JSON string (like Date) to escape commas, quotes, etc.
       stringifiedValue = JSON.stringify(stringifiedValue);
@@ -185,24 +204,22 @@ class JSON2CSVBase {
         .replace(/\u21E5/g, '\t');
     }
 
+    // Replace automatically scaped single quotes by doubleQuotes
+    stringifiedValue = stringifiedValue
+      .replace(/\\"(?!$)/g, this.opts.doubleQuote);
 
-    if (this.opts.quote === '"') {
-      // Replace automatically scaped single quotes by doubleQuotes
-      stringifiedValue = stringifiedValue
-        .replace(/(\\")(?!$)/g, this.opts.doubleQuote);
-    } else {
-      // Unescape automatically escaped double quote symbol
+    if (this.opts.quote !== '"') {
       // Replace single quote with double quote
       // Replace wrapping quotes
       stringifiedValue = stringifiedValue
-        .replace(/(\\")(?!$)/g, '"')
         .replace(new RegExp(this.opts.quote, 'g'), this.opts.doubleQuote)
-        .replace(/^"(.*)"$/, this.opts.quote + '$1' + this.opts.quote);
+        .replace(/^"/, this.opts.quote)
+        .replace(/"$/, this.opts.quote);
     }
 
-      // Remove double backslashes
-      stringifiedValue = stringifiedValue
-        .replace(/\\\\/g, '\\');
+    // Remove double backslashes
+    stringifiedValue = stringifiedValue
+      .replace(/\\\\/g, '\\');
 
     if (this.opts.excelStrings && typeof value === 'string') {
       stringifiedValue = '"="' + stringifiedValue + '""';
@@ -254,15 +271,6 @@ class JSON2CSVBase {
   */
   unwindData(dataRow, unwindPaths) {
     const unwind = (rows, unwindPath) => {
-      const pathAndField = unwindPath.split(/\.(?=[^.]+$)/);
-      const setUnwoundValue = pathAndField.length === 2
-        ? (() => {
-          const parentPath = pathAndField[0];
-          const unwindField = pathAndField[1];
-          return (row, value) => lodashSet(Object.assign({}, row), parentPath, Object.assign({}, lodashGet(row, parentPath), { [unwindField]: value }));
-        })()
-        : (row, value) => Object.assign({}, row, { [unwindPath]: value });
-
       return rows
         .map(row => {
           const unwindArray = lodashGet(row, unwindPath);
@@ -272,7 +280,7 @@ class JSON2CSVBase {
           }
 
           if (!unwindArray.length) {
-            return setUnwoundValue(row, undefined);
+            return setProp(row, unwindPath, undefined);
           }
 
           return unwindArray.map((unwindRow, index) => {
@@ -280,10 +288,10 @@ class JSON2CSVBase {
               ? {}
               : row;
 
-            return setUnwoundValue(clonedRow, unwindRow);
+            return setProp(clonedRow, unwindPath, unwindRow);
           });
         })
-        .reduce((a, e) => a.concat(e), []);
+        .reduce(flattenReducer, []);
     };
 
     return unwindPaths.reduce(unwind, [dataRow]);

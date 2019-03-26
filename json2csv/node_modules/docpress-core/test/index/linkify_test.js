@@ -29,6 +29,6 @@ describe('index/linkify:', function () {
   })
 
   it('renders', function () {
-    expect(this.files['intro.html'].contents.toString()).toInclude('<a href="http://google.com">')
+    expect(this.files['intro.html'].contents.toString()).toContain('<a href="http://google.com">')
   })
 })

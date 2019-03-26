@@ -65,7 +65,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     const opts = ' --fields carModel,price,color,transmission --ndjson --no-streaming';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json2/ndjsonInvalid.json') + opts, (err, stdout, stderr) => {   
-      t.ok(stderr.indexOf('Invalid input file.') !== -1);
+      t.ok(stderr.includes('Invalid input file.'));
       t.end();
     });
   });
@@ -74,7 +74,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     const opts = ' --fields carModel,price,color,transmission --ndjson';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/ndjsonInvalid.json') + opts, (err, stdout, stderr) => {   
-      t.ok(stderr.indexOf('Invalid JSON') !== -1);
+      t.ok(stderr.includes('Invalid JSON'));
       t.end();
     });
   });
@@ -92,7 +92,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
 
   testRunner.add('should error on invalid input file path', (t) => {
     child_process.exec(cli + '-i ' + getFixturePath('/json2/default.json'), (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid input file.') !== -1);
+      t.ok(stderr.includes('Invalid input file.'));
       t.end();
     });
   });
@@ -101,7 +101,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     const opts = ' --no-streaming';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json2/default.json') + opts, (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid input file.') !== -1);
+      t.ok(stderr.includes('Invalid input file.'));
       t.end();
     });
   });
@@ -171,7 +171,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     const opts = ' --fields-config ' + getFixturePath('/fields2/fieldNames.json');
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/default.json') + opts, (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid fields config file.') !== -1);
+      t.ok(stderr.includes('Invalid fields config file.'));
       t.end();
     });
   });
@@ -242,6 +242,17 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     });
   });
 
+  testRunner.add('field.value function should receive a valid field object', (t) => {
+    const opts = ' --fields-config ' + getFixturePath('/fields/functionWithCheck.js');
+
+    child_process.exec(cli + '-i ' + getFixturePath('/json/functionStringifyByDefault.json') + opts, (err, stdout, stderr) => {
+      t.notOk(stderr);
+      const csv = stdout;
+      t.equal(csv, csvFixtures.functionStringifyByDefault);
+      t.end();
+    });
+  });
+
   testRunner.add('field.value function should stringify results by default', (t) => {
     const opts = ' --fields-config ' + getFixturePath('/fields/functionStringifyByDefault.js');
 
@@ -290,8 +301,8 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
   });
 
   testRunner.add('should support multi-level unwind', (t) => {
-    const opts = ' --fields carModel,price,items.name,items.color,items.items.position,items.items.color'
-      + ' --unwind items,items.items';
+    const opts = ' --fields carModel,price,extras.items.name,extras.items.color,extras.items.items.position,extras.items.items.color'
+      + ' --unwind extras.items,extras.items.items';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/unwind2.json') + opts, (err, stdout, stderr) => {
       t.notOk(stderr);
@@ -302,8 +313,8 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
   });
 
   testRunner.add('hould unwind and blank out repeated data', (t) => {
-    const opts = ' --fields carModel,price,items.name,items.color,items.items.position,items.items.color'
-      + ' --unwind items,items.items --unwind-blank';
+    const opts = ' --fields carModel,price,extras.items.name,extras.items.color,extras.items.items.position,extras.items.items.color'
+      + ' --unwind extras.items,extras.items.items --unwind-blank';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/unwind2.json') + opts, (err, stdout, stderr) => {
       t.notOk(stderr);
@@ -429,7 +440,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     });
   });
 
-  testRunner.add('should not escape quotes with double quotes, when there is a backslah in the end', (t) => {
+  testRunner.add('should not escape quotes with double quotes, when there is a backslash in the end', (t) => {
     child_process.exec(cli + '-i ' + getFixturePath('/json/backslashAtEnd.json'), (err, stdout, stderr) => {
       t.notOk(stderr); 
       const csv = stdout;
@@ -438,7 +449,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
     });
   });
 
-  testRunner.add('should not escape quotes with double quotes, when there is a backslah in the end, and its not the last column', (t) => {
+  testRunner.add('should not escape quotes with double quotes, when there is a backslash in the end, and its not the last column', (t) => {
     child_process.exec(cli + '-i ' + getFixturePath('/json/backslashAtEndInMiddleColumn.json'), (err, stdout, stderr) => {
       t.notOk(stderr); 
       const csv = stdout;
@@ -651,7 +662,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
 
   testRunner.add('should error if stdin data is not valid', (t) => {
     const test = child_process.exec(cli, (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid data received from stdin') !== -1);
+      t.ok(stderr.includes('Invalid data received from stdin'));
       t.end();
     });
 
@@ -673,7 +684,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
 
   testRunner.add('should error if stdin data is not valid with -s flag', (t) => {
     const test = child_process.exec(cli + '-s', (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid data received from stdin') !== -1);
+      t.ok(stderr.includes('Invalid data received from stdin'));
       t.end();
     });
 
@@ -683,7 +694,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
 
   // testRunner.add('should error if stdin fails', (t) => {
   //   const test = child_process.exec(cli, (err, stdout, stderr) => {
-  //     t.ok(stderr.indexOf('Could not read from stdin') !== -1);
+  //     t.ok(stderr.includes('Could not read from stdin'));
   //     t.end();
   //   });
 
@@ -741,7 +752,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       + ' --fields carModel,price,color,transmission';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/default.json') + opts, (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid output file.') !== -1);
+      t.ok(stderr.includes('Invalid output file.'));
       t.end();
     });
   });
@@ -752,7 +763,7 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       + ' --fields carModel,price,color,transmission --no-streaming';
 
     child_process.exec(cli + '-i ' + getFixturePath('/json/default.json') + opts, (err, stdout, stderr) => {
-      t.ok(stderr.indexOf('Invalid output file.') !== -1);
+      t.ok(stderr.includes('Invalid output file.'));
       t.end();
     });
   });

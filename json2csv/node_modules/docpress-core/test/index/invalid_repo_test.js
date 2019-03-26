@@ -21,7 +21,7 @@ describe('index/invalid repo:', function () {
   })
 
   it('throws an error without any valid files', function () {
-    expect(this.err).toExist()
-    expect(this.err.message).toInclude('Table of contents not found')
+    expect(this.err).toBeDefined()
+    expect(this.err.message).toContain('Table of contents not found')
   })
 })

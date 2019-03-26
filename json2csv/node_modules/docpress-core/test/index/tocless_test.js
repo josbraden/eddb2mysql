@@ -19,7 +19,7 @@ describe('index/toc-less:', function () {
   })
 
   it('works', function () {
-    expect(this.files['index.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
   })
 
   it('renders title', function () {

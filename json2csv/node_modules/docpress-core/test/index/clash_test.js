@@ -29,8 +29,8 @@ describe('index/clash:', function () {
   })
 
   it('renames index.md', function () {
-    expect(this.files['index.html']).toExist()
-    expect(this.files['index-2.html']).toExist()
+    expect(this.files['index.html']).toBeDefined()
+    expect(this.files['index-2.html']).toBeDefined()
   })
 
   it('updates slugs', function () {
