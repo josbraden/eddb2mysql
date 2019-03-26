@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `bodies_import`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `bodies_import` (
   `eddb_id` int(11) NOT NULL,
-  `id64` int(11) NOT NULL,
   `bodyId` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
   `type` mediumtext NOT NULL,
@@ -50,8 +49,6 @@ CREATE TABLE `bodies_import` (
   `axialTilt` float NOT NULL,
   `updateTime` int(11) NOT NULL,
   `systemId` int(11) NOT NULL,
-  `systemId64` int(11) NOT NULL,
-  `systemName` mediumtext NOT NULL,
   UNIQUE KEY `eddb_id` (`eddb_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;

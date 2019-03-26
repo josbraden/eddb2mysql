@@ -50,7 +50,6 @@ DROP TABLE IF EXISTS `bodies`;
 CREATE TABLE `bodies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `eddb_id` int(11) NOT NULL,
-  `id64` int(11) NOT NULL,
   `bodyId` int(11) NOT NULL,
   `name` mediumtext NOT NULL,
   `type` mediumtext NOT NULL,
@@ -76,8 +75,6 @@ CREATE TABLE `bodies` (
   `axialTilt` float NOT NULL,
   `updateTime` int(11) NOT NULL,
   `systemId` int(11) NOT NULL,
-  `systemId64` int(11) NOT NULL,
-  `systemName` mediumtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `eddb_id` (`eddb_id`),
   FULLTEXT KEY `name` (`name`)
