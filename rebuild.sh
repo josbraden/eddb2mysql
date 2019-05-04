@@ -40,6 +40,6 @@ if [ ! -f ./mysqlinfo.txt ]; then
 	echo "MySQL info not found, please run rebuild.sql manually to build the database"
 	echo "e.g.: $ mysql -u root -p -h localhost ed < rebuild.sql"
 else
-	source mysqlinfo.txt
-	mysql -u $mysqluser -p$mysqlpass -h $mysqhost $mysqldb < rebuild.sql
+	source ./mysqlinfo.txt
+	mysql -u $mysqluser -p$mysqlpass -h $mysqhost -D $mysqldb < rebuild.sql
 fi
