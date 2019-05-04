@@ -10,6 +10,6 @@ if [ ! -f ./mysqlinfo.txt ]; then
 	echo "MySQL info not found, please run updateweekly.sql manually to update the database"
 	echo "e.g.: $ mysql -u root -p -h localhost ed < updateweekly.sql"
 else
-	source mysqlinfo.txt
-	mysql -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb < updateweekly.sql
+	source ./mysqlinfo.txt
+	mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < updateweekly.sql
 fi
