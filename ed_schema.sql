@@ -1,13 +1,13 @@
--- MySQL dump 10.16  Distrib 10.1.34-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.25, for FreeBSD11.2 (amd64)
 --
 -- Host: localhost    Database: ed
 -- ------------------------------------------------------
--- Server version	10.1.34-MariaDB-0ubuntu0.18.04.1
+-- Server version	5.7.25-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -30,15 +30,6 @@ CREATE TABLE `allegiance` (
   UNIQUE KEY `allegiance_id` (`allegiance_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `allegiance`
---
-
-LOCK TABLES `allegiance` WRITE;
-/*!40000 ALTER TABLE `allegiance` DISABLE KEYS */;
-/*!40000 ALTER TABLE `allegiance` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `bodies`
@@ -82,15 +73,6 @@ CREATE TABLE `bodies` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bodies`
---
-
-LOCK TABLES `bodies` WRITE;
-/*!40000 ALTER TABLE `bodies` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bodies` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `commodities`
 --
 
@@ -119,15 +101,6 @@ CREATE TABLE `commodities` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `commodities`
---
-
-LOCK TABLES `commodities` WRITE;
-/*!40000 ALTER TABLE `commodities` DISABLE KEYS */;
-/*!40000 ALTER TABLE `commodities` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `controlling_minor_faction`
 --
 
@@ -143,15 +116,6 @@ CREATE TABLE `controlling_minor_faction` (
   FULLTEXT KEY `controlling_minor_faction` (`controlling_minor_faction`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `controlling_minor_faction`
---
-
-LOCK TABLES `controlling_minor_faction` WRITE;
-/*!40000 ALTER TABLE `controlling_minor_faction` DISABLE KEYS */;
-/*!40000 ALTER TABLE `controlling_minor_faction` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `factions`
@@ -177,15 +141,6 @@ CREATE TABLE `factions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `factions`
---
-
-LOCK TABLES `factions` WRITE;
-/*!40000 ALTER TABLE `factions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `factions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `government`
 --
 
@@ -202,13 +157,19 @@ CREATE TABLE `government` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `government`
+-- Table structure for table `graph`
 --
 
-LOCK TABLES `government` WRITE;
-/*!40000 ALTER TABLE `government` DISABLE KEYS */;
-/*!40000 ALTER TABLE `government` ENABLE KEYS */;
-UNLOCK TABLES;
+DROP TABLE IF EXISTS `graph`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `graph` (
+  `systems_id` int(11) NOT NULL,
+  `neighbors` longtext,
+  `weights` longtext,
+  UNIQUE KEY `system_id` (`systems_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPRESSED;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `listings`
@@ -233,15 +194,6 @@ CREATE TABLE `listings` (
   UNIQUE KEY `eddb_id` (`eddb_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `listings`
---
-
-LOCK TABLES `listings` WRITE;
-/*!40000 ALTER TABLE `listings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `listings` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `modules`
@@ -271,15 +223,6 @@ CREATE TABLE `modules` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `modules`
---
-
-LOCK TABLES `modules` WRITE;
-/*!40000 ALTER TABLE `modules` DISABLE KEYS */;
-/*!40000 ALTER TABLE `modules` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `power_state`
 --
 
@@ -294,15 +237,6 @@ CREATE TABLE `power_state` (
   UNIQUE KEY `power_state_id` (`power_state_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `power_state`
---
-
-LOCK TABLES `power_state` WRITE;
-/*!40000 ALTER TABLE `power_state` DISABLE KEYS */;
-/*!40000 ALTER TABLE `power_state` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `primary_economy`
@@ -321,15 +255,6 @@ CREATE TABLE `primary_economy` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `primary_economy`
---
-
-LOCK TABLES `primary_economy` WRITE;
-/*!40000 ALTER TABLE `primary_economy` DISABLE KEYS */;
-/*!40000 ALTER TABLE `primary_economy` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `reserve_type`
 --
 
@@ -344,15 +269,6 @@ CREATE TABLE `reserve_type` (
   UNIQUE KEY `reserve_type_id` (`reserve_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `reserve_type`
---
-
-LOCK TABLES `reserve_type` WRITE;
-/*!40000 ALTER TABLE `reserve_type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `reserve_type` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `security`
@@ -371,15 +287,6 @@ CREATE TABLE `security` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `security`
---
-
-LOCK TABLES `security` WRITE;
-/*!40000 ALTER TABLE `security` DISABLE KEYS */;
-/*!40000 ALTER TABLE `security` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `state`
 --
 
@@ -394,15 +301,6 @@ CREATE TABLE `state` (
   UNIQUE KEY `state_id` (`state_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `state`
---
-
-LOCK TABLES `state` WRITE;
-/*!40000 ALTER TABLE `state` DISABLE KEYS */;
-/*!40000 ALTER TABLE `state` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `stations`
@@ -448,15 +346,6 @@ CREATE TABLE `stations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `stations`
---
-
-LOCK TABLES `stations` WRITE;
-/*!40000 ALTER TABLE `stations` DISABLE KEYS */;
-/*!40000 ALTER TABLE `stations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `systems`
 --
 
@@ -491,15 +380,6 @@ CREATE TABLE `systems` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `systems`
---
-
-LOCK TABLES `systems` WRITE;
-/*!40000 ALTER TABLE `systems` DISABLE KEYS */;
-/*!40000 ALTER TABLE `systems` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `type`
 --
 
@@ -514,15 +394,6 @@ CREATE TABLE `type` (
   UNIQUE KEY `type_id` (`type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `type`
---
-
-LOCK TABLES `type` WRITE;
-/*!40000 ALTER TABLE `type` DISABLE KEYS */;
-/*!40000 ALTER TABLE `type` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -533,4 +404,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-09 13:00:53
+-- Dump completed on 2019-07-10 20:47:38
