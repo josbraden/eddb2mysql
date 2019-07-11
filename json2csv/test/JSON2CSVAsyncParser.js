@@ -4,13 +4,42 @@ const { Readable, Transform, Writable } = require('stream');
 const { AsyncParser, parseAsync } = require('../lib/json2csv');
 
 module.exports = (testRunner, jsonFixtures, csvFixtures, inMemoryJsonFixtures) => {
-  testRunner.add('should parse json to csv, infer the fields automatically and not modify the opts passed using parseAsync method', (t) => {
+  testRunner.add('should parse in-memory json array to csv, infer the fields automatically and not modify the opts passed using parseAsync method', (t) => {
     const opts = {
       fields: ['carModel', 'price', 'color', 'transmission']
     };
-    const transformOpts = { objectMode: true };
 
-    parseAsync(inMemoryJsonFixtures.default, opts, transformOpts)
+    parseAsync(inMemoryJsonFixtures.default, opts)
+      .then((csv) => {
+        t.ok(typeof csv === 'string');
+        t.equal(csv, csvFixtures.default);
+        t.deepEqual(opts, { fields: ['carModel', 'price', 'color', 'transmission'] });
+      })
+      .catch(err => t.notOk(true, err.message))
+      .then(() => t.end());
+  });
+  
+  testRunner.add('should parse in-memory json object to csv, infer the fields automatically and not modify the opts passed using parseAsync method', (t) => {
+    const opts = {
+      fields: ['carModel', 'price', 'color', 'transmission']
+    };
+
+    parseAsync({ "carModel": "Audi",      "price": 0,  "color": "blue" }, opts)
+      .then((csv) => {
+        t.ok(typeof csv === 'string');
+        t.equal(csv, '"carModel","price","color","transmission"\n"Audi",0,"blue",');
+        t.deepEqual(opts, { fields: ['carModel', 'price', 'color', 'transmission'] });
+      })
+      .catch(err => t.notOk(true, err.message))
+      .then(() => t.end());
+  });
+
+  testRunner.add('should parse streaming json to csv, infer the fields automatically and not modify the opts passed using parseAsync method', (t) => {
+    const opts = {
+      fields: ['carModel', 'price', 'color', 'transmission']
+    };
+
+    parseAsync(jsonFixtures.default(), opts)
       .then((csv) => {
         t.ok(typeof csv === 'string');
         t.equal(csv, csvFixtures.default);
@@ -567,6 +596,18 @@ module.exports = (testRunner, jsonFixtures, csvFixtures, inMemoryJsonFixtures) =
       .then(() => t.end());
   });
 
+  testRunner.add('should not escape \'"\' when setting \'quote\' set to something else', (t) => {
+    const opts = {
+      quote: '\''
+    };
+
+    const parser = new AsyncParser(opts);
+    parser.fromInput(jsonFixtures.doubleQuotes()).promise()
+      .then(csv => t.equal(csv, csvFixtures.doubleQuotesUnescaped))
+      .catch(err => t.notOk(true, err.message))
+      .then(() => t.end());
+  });
+
   // Double Quote
 
   testRunner.add('should escape quotes with double quotes', (t) => {
@@ -704,8 +745,8 @@ module.exports = (testRunner, jsonFixtures, csvFixtures, inMemoryJsonFixtures) =
     parser.fromInput(jsonFixtures.escapeEOL()).promise()
       .then(csv => t.equal(csv, [
       '"a string"',
-      '"with a \ndescription\\n and\na new line"',
-      '"with a \r\ndescription and\r\nanother new line"'
+      '"with a \u2028description\\n and\na new line"',
+      '"with a \u2029\u2028description and\r\nanother new line"'
     ].join('\r\n')))
       .catch(err => t.notOk(true, err.message))
       .then(() => t.end());

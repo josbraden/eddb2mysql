@@ -429,6 +429,17 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       });
   });
 
+  testRunner.add('should not escape \'"\' when setting \'quote\' set to something else', (t) => {
+    const opts = ' --quote "\'"';
+
+    child_process.exec(cli + '-i ' + getFixturePath('/json/doubleQuotes.json') + opts, (err, stdout, stderr) => {
+      t.notOk(stderr); 
+      const csv = stdout;
+        t.equal(csv, csvFixtures.doubleQuotesUnescaped);
+        t.end();
+      });
+  });
+
   // Double Quote
 
   testRunner.add('should escape quotes with double quotes', (t) => {
@@ -549,8 +560,8 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       const csv = stdout;
       t.equal(csv, [
       '"a string"',
-      '"with a \ndescription\\n and\na new line"',
-      '"with a \r\ndescription and\r\nanother new line"'
+      '"with a \u2028description\\n and\na new line"',
+      '"with a \u2029\u2028description and\r\nanother new line"'
     ].join('\r\n'));
       t.end();
     });
@@ -815,5 +826,15 @@ module.exports = (testRunner, jsonFixtures, csvFixtures) => {
       t.end();
     });
   });
-};
 
+  testRunner.add('should print pretty table without rows', (t) => {
+    const opts = ' --fields fieldA,fieldB,fieldC --pretty';
+
+    child_process.exec(cli + '-i ' + getFixturePath('/json/default.json') + opts, (err, stdout, stderr) => {
+      t.notOk(stderr);
+      const csv = stdout;
+      t.equal(csv, csvFixtures.prettyprintWithoutRows);
+      t.end();
+    });
+  });
+};

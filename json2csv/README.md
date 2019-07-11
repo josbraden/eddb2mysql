@@ -84,6 +84,8 @@ Use `-p` to show the result as a table in the console.
 
 ### CLI examples
 
+All examples use this example [input file](./test/fixtures/json/default.json).
+
 #### Input file and specify fields
 
 ```sh
@@ -220,7 +222,7 @@ Both of the methods above load the entire JSON in memory and do the whole proces
 
 ### json2csv async parser (Streaming API)
 
-The synchronous API has the downside of loading the entire JSON array in memory and blocking javascript's event loop while processing the data. This means that you server won't be able to process more request or your UI will become irresponsive while data is being processed. For those reasons, is rarely a good reason to use it unless your data is very small or your application doesn't do anything else.
+The synchronous API has the downside of loading the entire JSON array in memory and blocking javascript's event loop while processing the data. This means that your server won't be able to process more request or your UI will become irresponsive while data is being processed. For those reasons, is rarely a good reason to use it unless your data is very small or your application doesn't do anything else.
 
 The async parser process the data as a non-blocking stream. This approach ensures a consistent memory footprint and avoid blocking javascript's event loop. Thus, it's better suited for large datasets or system with high concurrency. 
 
@@ -240,7 +242,7 @@ const fields = ['field1', 'field2', 'field3'];
 const opts = { fields };
 const transformOpts = { highWaterMark: 8192 };
 
-const asyncParser = new JSON2CSVAsyncParser(opts, transformOpts);
+const asyncParser = new AsyncParser(opts, transformOpts);
 
 let csv = '';
 asyncParser.processor
@@ -280,7 +282,7 @@ asyncParser.fromInput(input).toOutput(output).promise()
   .catch(err => console.error(err));;
 ```
 
-you can also use the convenience method `parseAsync` which returns a promise.
+you can also use the convenience method `parseAsync` which accept both JSON arrays/objects and readable streams and returns a promise.
 
 ```js
 const { parseAsync } = require('json2csv');
@@ -346,24 +348,34 @@ The stream API can also work on object mode. This is useful when you have an inp
 ```js
 {
   fields: [
+    // Supports pathname -> pathvalue
+    'simplepath', // equivalent to {value:'simplepath'}
+    'path.to.value' // also equivalent to {value:'path.to.value'}
+
     // Supports label -> simple path
     {
-      label: 'some label', // (optional, column will be labeled 'path.to.something' if not defined)
+      label: 'some label', // Optional, column will be labeled 'path.to.something' if not defined)
       value: 'path.to.something', // data.path.to.something
-      default: 'NULL' // default if value is not found (optional, overrides `defaultValue` for column)
+      default: 'NULL' // default if value is not found (Optional, overrides `defaultValue` for column)
     },
 
     // Supports label -> derived value
     {
-      label: 'some label', // Supports duplicate labels (required, else your column will be labeled [function])
-      value: (row, field) => row.path1 + row.path2, // field = { label, default }
+      label: 'some label', // Optional, column will be labeled with the function name or empty if the function is anonymous
+      value: (row, field) => row[field.label].toLowerCase() ||field.default,
       default: 'NULL', // default if value function returns null or undefined
-      stringify: true // If value is function use this flag to signal if resulting string will be quoted (stringified) or not (optional, default: true)
     },
 
-    // Support pathname -> pathvalue
-    'simplepath', // equivalent to {value:'simplepath'}
-    'path.to.value' // also equivalent to {value:'path.to.value'}
+    // Supports label -> derived value
+    {
+      value: (row) => row.arrayField.join(',')
+    },
+
+    // Supports label -> derived value
+    {
+      value: (row) => `"${row.arrayField.join(',')}"`,
+      stringify: false // This flag signals if the resulting string should be quoted (stringified) or not (optional, default: true)
+    },
   ]
 }
 ```
