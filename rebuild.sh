@@ -28,7 +28,7 @@ if [ ! -f ./listings.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/listings.csv | gzip -dc | tail -n +2 > listings.csv
 fi
 if [ ! -f ./systems_import.csv ]; then
-	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/systems.csv | gzip -dc > | tail -n +2 systems_import.csv
+	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/systems.csv | gzip -dc | tail -n +2 > systems_import.csv
 fi
 # TODO get category from commodities.json into seperate table
 if [ ! -f ./commodities.csv ]; then
@@ -36,7 +36,7 @@ if [ ! -f ./commodities.csv ]; then
 fi
 # TODO get group from modules.json into seperate table
 if [ ! -f ./modules.csv ]; then
-	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/modules.json | gzip -dc | json2csv/bin/json2csv.js -f "id","group_id","class","rating","price","weapon_mode","missile_type","name","belongs_to","ed_id","ed_symbol","ship" > modules.csv
+	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/modules.json | gzip -dc | json2csv/bin/json2csv.js -f "id","group_id","class","rating","price","weapon_mode","missile_type","name","belongs_to","ed_id","ed_symbol","ship" | tail -n +2 > modules.csv
 fi
 # Missing fields on stations:
 # "import_commodities","export_commodities","prohibited_commodities","economies","selling_ships","selling_modules"
