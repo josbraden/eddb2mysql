@@ -27,9 +27,9 @@ LOAD DATA LOCAL INFILE 'systems.csv' INTO TABLE systems_import FIELDS TERMINATED
 LOAD DATA LOCAL INFILE 'stations.csv' INTO TABLE stations_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 FLUSH TABLE systems_import,stations_import;
 
----
---- Direct load compatible tables
----
+--
+-- Direct load compatible tables
+--
 LOAD DATA LOCAL INFILE 'factions.csv' INTO TABLE factions(eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'listings.csv' INTO TABLE listings(eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'commodities.csv' INTO TABLE commodities(eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
