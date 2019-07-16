@@ -25,7 +25,7 @@ SOURCE ed_import_schema.sql;
 --
 LOAD DATA LOCAL INFILE 'systems.csv' INTO TABLE systems_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'stations.csv' INTO TABLE stations_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
-FLUSH TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import,bodies_import;
+FLUSH TABLE systems_import,stations_import;
 
 ---
 --- Direct load compatible tables
@@ -35,6 +35,7 @@ LOAD DATA LOCAL INFILE 'listings.csv' INTO TABLE listings(eddb_id,station_id,com
 LOAD DATA LOCAL INFILE 'commodities.csv' INTO TABLE commodities(eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'modules.csv' INTO TABLE modules(eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
 LOAD DATA LOCAL INFILE 'bodies.csv' INTO TABLE bodies(eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId) FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
+FLUSH TABLE factions,listings,commodities,modules,bodies;
 
 --
 -- Build stations and stations auxiliary table(s)
@@ -61,12 +62,6 @@ FLUSH TABLE allegiance,controlling_minor_faction,government,power_state,primary_
 --
 INSERT IGNORE INTO systems(eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id) SELECT eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id FROM systems_import;
 FLUSH TABLE systems;
-
---
--- Build bodies table
---
---INSERT IGNORE INTO bodies(eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId) SELECT * FROM bodies_import;
-FLUSH TABLE bodies;
 
 --
 -- Drop import tables
