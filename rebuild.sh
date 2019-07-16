@@ -40,8 +40,8 @@ if [ ! -f ./modules.csv ]; then
 fi
 # Missing fields on stations:
 # "import_commodities","export_commodities","prohibited_commodities","economies","selling_ships","selling_modules"
-if [ ! -f ./stations.csv ]; then
-	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/stations.json | gzip -dc | json2csv/bin/json2csv.js -f "id","name","system_id","updated_at","max_landing_pad_size","distance_to_star","government_id","allegiance_id","state_id","type_id","type","has_blackmarket","has_market","has_refuel","has_repair","has_rearm","has_outfitting","has_shipyard","has_docking","has_commodities","shipyard_updated_at","outfitting_updated_at","market_updated_at","is_planetary","settlement_size_id","settlement_size","settlement_security_id","settlement_security","body_id","controlling_minor_faction_id" > stations.csv
+if [ ! -f ./stations_import.csv ]; then
+	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/stations.json | gzip -dc | json2csv/bin/json2csv.js -f "id","name","system_id","updated_at","max_landing_pad_size","distance_to_star","government_id","allegiance_id","state_id","type_id","type","has_blackmarket","has_market","has_refuel","has_repair","has_rearm","has_outfitting","has_shipyard","has_docking","has_commodities","shipyard_updated_at","outfitting_updated_at","market_updated_at","is_planetary","settlement_size_id","settlement_size","settlement_security_id","settlement_security","body_id","controlling_minor_faction_id" > stations_import.csv
 fi
 # Missing fields in bodies:
 # "discovery","parents","belts"
@@ -52,7 +52,7 @@ echo "File download complete."
 # Load data into MySQL
 # Import table loads
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations.csv
+mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations_import.csv
 # Direct table loads
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction $mysqldb factions.csv
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at $mysqldb listings.csv
