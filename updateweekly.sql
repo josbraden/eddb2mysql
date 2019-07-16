@@ -7,7 +7,7 @@
 
 -- Add import tables
 SOURCE ed_import_schema.sql;
-DROP TABLE commodities_import,factions_import,modules_import,stations_import;
+DROP TABLE stations_import;
 
 -- Load CSV data
 LOAD DATA LOCAL INFILE 'systems_recently.csv' INTO TABLE systems_import FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;
@@ -27,7 +27,7 @@ INSERT IGNORE INTO bodies(eddb_id,bodyId,name,type,subType,offset,distanceToArri
 FLUSH TABLE listings,systems,bodies;
 
 -- Cleanup import data
-DROP TABLE systems_import,listings_import,bodies_import;
+DROP TABLE systems_import;
 
 -- Re-index and optimize tables
 -- Probably only needs to happen every other month or so, but keeping on every update for now
