@@ -48,7 +48,7 @@ fi
 if [ ! -f ./bodies.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://www.edsm.net/dump/bodies.json | gzip -dc | json2csv/bin/json2csv.js -f "id","bodyId","name","type","subType","offset","distanceToArrival","isMainStar","isScoopable","age","spectralClass","luminosity","absoluteMagnitude","solarMasses","solarRadius","surfaceTemperature","orbitalPeriod","semiMajorAxis","orbitalEccentricity","orbitalInclination","argOfPeriapsis","rotationalPeriod","rotationalPeriodTidallyLocked","axialTilt","updateTime","systemId" > bodies.csv
 fi
-echo "File download complete."
+echo "Loading data into MySQL"
 # Load data into MySQL
 # Import table loads
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
@@ -60,3 +60,5 @@ mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,cat
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship $mysqldb modules.csv
 # bodies TODO
 #mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId $mysqldb bodies.csv
+# Build extra tables
+mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < rebuild.sql
