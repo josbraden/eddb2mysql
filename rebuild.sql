@@ -66,7 +66,7 @@ FLUSH TABLE systems;
 --
 -- Drop import tables
 --
-DROP TABLE factions_import,listings_import,systems_import,commodities_import,modules_import,stations_import,bodies_import;
+DROP TABLE systems_import,stations_import;
 
 --
 -- Optimize new tables post bulk-insert
