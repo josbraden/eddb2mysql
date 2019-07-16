@@ -27,8 +27,8 @@ fi
 if [ ! -f ./listings.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/listings.csv | gzip -dc > listings.csv
 fi
-if [ ! -f ./systems.csv ]; then
-	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/systems.csv | gzip -dc > systems.csv
+if [ ! -f ./systems_import.csv ]; then
+	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/systems.csv | gzip -dc > systems_import.csv
 fi
 # TODO get category from commodities.json into seperate table
 if [ ! -f ./commodities.csv ]; then
@@ -51,7 +51,7 @@ fi
 echo "File download complete."
 # Load data into MySQL
 # Import table loads
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems.csv
+mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations.csv
 # Direct table loads
 mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction $mysqldb factions.csv
