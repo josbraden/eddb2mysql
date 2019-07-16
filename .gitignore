@@ -1,3 +1,5 @@
 mysqlinfo.txt
 *.swp
 .vscode
+*.csv
+*.csv[0-9]*
