@@ -1,15 +1,10 @@
 #!/bin/bash
 #
 # Script needs to:
-# 1. Download required files from web
-# 2. Convert JSON files to CSV for MySQL LOAD using json2csv
-# 3. Run the mysql rebuild script
-#
-# New version of the script needs to:
 # 1. Import schema to MySQL
 # 2. Download/decompress/convert data from eddb/edsm
 # 3. Get data into database via mysqlimport
-# 3. Execute SQL code to build remaining tables
+# 4. Execute SQL code to build remaining tables
 #
 if [ ! -f ./mysqlinfo.txt ]; then
 	echo "MySQL info not found, exiting"
@@ -19,7 +14,6 @@ source ./mysqlinfo.txt
 echo "Importing Schema"
 mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < ed_schema.sql
 mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < ed_import_schema.sql
-# Downloads data files from web
 echo "Downloading data files"
 if [ ! -f ./factions.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://eddb.io/archive/v5/factions.csv | gzip -dc | tail -n +2 > factions.csv
@@ -49,7 +43,6 @@ if [ ! -f ./bodies.csv ]; then
 	wget -O - -S --header="accept-encoding: gzip" https://www.edsm.net/dump/bodies.json | gzip -dc | json2csv/bin/json2csv.js -f "id","bodyId","name","type","subType","offset","distanceToArrival","isMainStar","isScoopable","age","spectralClass","luminosity","absoluteMagnitude","solarMasses","solarRadius","surfaceTemperature","orbitalPeriod","semiMajorAxis","orbitalEccentricity","orbitalInclination","argOfPeriapsis","rotationalPeriod","rotationalPeriodTidallyLocked","axialTilt","updateTime","systemId" | tail -n +2 > bodies.csv
 fi
 echo "Loading data into MySQL"
-# Load data into MySQL
 # Import table loads
 mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
 mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations_import.csv
@@ -58,7 +51,8 @@ mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $my
 mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at $mysqldb listings.csv
 mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id $mysqldb commodities.csv
 mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship $mysqldb modules.csv
-# bodies TODO
+# bodies table commented out pending Issue #2
 #mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId $mysqldb bodies.csv
-# Build extra tables
+echo "Building extra tables and cleaning up"
 mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < rebuild.sql
+echo "Rebuild script complete"
