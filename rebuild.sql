@@ -15,5 +15,5 @@ INSERT IGNORE INTO state(state_id,state) SELECT DISTINCT state_id,state FROM sys
 
 -- Cleanup and optimize new tables post bulk-insert
 DROP TABLE systems_import,stations_import;
-FLUSH stations,type,systems,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state;
+FLUSH TABLE stations,type,systems,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state;
 OPTIMIZE TABLE factions,listings,allegiance,controlling_minor_faction,government,power_state,primary_economy,reserve_type,security,state,systems,commodities,modules,stations,bodies;
