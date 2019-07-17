@@ -7,20 +7,13 @@ EDSM is used for the bodies table, all other data including systems and stations
 ## Requirements
 
 - A running, connectable SQL server (tested on MySQL and MariaDB)
-- A database and user with the following permissions
-  - SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, and LOCK
-  - Ability to execute LOAD DATA INFILE LOCAL, which might require secure mode being off, or executing from a diretory that's allowed to load files. Depending on your setup this might also require FILE permissions
-  - RELOAD privileges for the FLUSH command
+- A database and user with SUPER permissions for the mysqlimport command
 - wget and gzip to download files
 - Node.js is required for json2csv
 
 ## New Database Setup
 
-To set up the database, run rebuild.sh. This script downloads the data files from eddb.io and edsm.net and runs the rebuild.sql script to populate the db. For the script to automatically connect to MySQL, put your connection info in mysqlinfo.txt, see mysqlinfo-example.txt for more information.
-
-If you opt to not use mysqlinfo.txt, run rebuild.sh to download the data files, then run the rebuild.sql script against your database manually, e.g:
-
-`mysql -u root -p ed < rebuild.sql`
+To set up the database, set your connection info in mysqlinfo.txt and run rebuild.sh. This script downloads the data files from eddb.io and edsm.net, imports the data via mysqlimport, and runs rebuild.sql script to populate the db.
 
 ## Update Existing Database
 
