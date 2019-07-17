@@ -51,14 +51,14 @@ fi
 echo "Loading data into MySQL"
 # Load data into MySQL
 # Import table loads
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations_import.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb systems_import.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost $mysqldb stations_import.csv
 # Direct table loads
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction $mysqldb factions.csv
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at $mysqldb listings.csv
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id $mysqldb commodities.csv
-mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship $mysqldb modules.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,updated_at,government_id,allegiance_id,state_id,home_system_id,is_player_faction $mysqldb factions.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,station_id,commodity_id,supply,supply_bracket,buy_price,sell_price,demand,demand_bracket,collected_at $mysqldb listings.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,name,category_id,average_price,is_rare,max_buy_price,max_sell_price,min_buy_price,min_sell_price,buy_price_lower_average,sell_price_upper_average,is_non_marketable,ed_id $mysqldb commodities.csv
+mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,group_id,class,rating,price,weapon_mode,missile_type,name,belongs_to,ed_id,ed_symbol,ship $mysqldb modules.csv
 # bodies TODO
-#mysqlimport --local -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId $mysqldb bodies.csv
+#mysqlimport --local --fields-terminated-by=',' --lines-terminated-by='\n' -u $mysqluser -p$mysqlpass -h $mysqlhost -c eddb_id,bodyId,name,type,subType,offset,distanceToArrival,isMainStar,isScoopable,age,spectralClass,luminosity,absoluteMagnitude,solarMasses,solarRadius,surfaceTemperature,orbitalPeriod,semiMajorAxis,orbitalEccentricity,orbitalInclination,argOfPeriapsis,rotationalPeriod,rotationalPeriodTidallyLocked,axialTilt,updateTime,systemId $mysqldb bodies.csv
 # Build extra tables
 mysql -u $mysqluser -p$mysqlpass -h $mysqlhost -D $mysqldb < rebuild.sql
