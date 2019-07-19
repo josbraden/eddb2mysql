@@ -5,7 +5,7 @@
 
 -- Add import tables
 SOURCE ed_import_schema.sql;
-CREATE TABLE bodies_import SELECT * FROM bodies LIMIT 0;
+CREATE TEMPORARY TABLE bodies_import SELECT * FROM bodies LIMIT 0;
 DROP TABLE stations_import;
 
 -- Load CSV data
