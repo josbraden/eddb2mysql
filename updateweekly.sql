@@ -1,9 +1,7 @@
---
 -- Script to update the database with new data
 -- Delta fields, systems_recently.csv and bodies7days.json, are released weekly
 -- The listings table is also rebuilt, it sees ~10% change per week
 -- Also requires the ed_import_schema.sql file
---
 
 -- Add import tables
 SOURCE ed_import_schema.sql;
@@ -29,11 +27,3 @@ FLUSH TABLE systems,bodies;
 
 -- Cleanup import data
 DROP TABLE bodies_import,systems_import;
-
--- Re-index and optimize tables
--- Probably only needs to happen every other month or so, but keeping on every update for now
-SET @newid=0;
-UPDATE systems SET id=(@newid:=@newid+1) ORDER BY id;
-SET @newid=0;
-UPDATE bodies SET id=(@newid:=@newid+1) ORDER BY id;
-OPTIMIZE TABLE listings,systems,bodies;
