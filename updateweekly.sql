@@ -23,9 +23,13 @@ SELECT COUNT(*) FROM systems_import AS systems_import_knt;
 SELECT COUNT(*) FROM bodies_import AS bodies_import_knt;
 
 -- Merge imported data with tables via DELETE+INSERT
--- systems
+-- systems and graph tables
 SELECT COUNT(*) FROM systems AS systems_knt_old;
 SELECT COUNT(*) FROM systems WHERE eddb_id IN (SELECT eddb_id FROM systems_import) AS systems_todelete;
+SELECT COUNT(*) FROM graph WHERE systems_id IN (SELECT id FROM systems WHERE eddb_id IN (SELECT eddb_id FROM systems_import)) AS graph_todelete;
+-- Clean graph table when deleting from systems
+-- This should probably be a JOIN instead of a nested select
+DELETE FROM graph WHERE systems_id IN (SELECT id FROM systems WHERE eddb_id IN (SELECT eddb_id FROM systems_import));
 DELETE FROM systems WHERE eddb_id IN (SELECT eddb_id FROM systems_import);
 INSERT IGNORE INTO systems(eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id) SELECT eddb_id,edsm_id,name,x,y,z,population,is_populated,government_id,allegiance_id,state_id,security_id,primary_economy_id,power,power_state_id,needs_permit,updated_at,controlling_minor_faction_id,reserve_type_id FROM systems_import;
 SELECT COUNT(*) FROM systems AS systems_knt_new;
