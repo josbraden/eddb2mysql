@@ -13,7 +13,9 @@ EDSM is used for the bodies table, all other data including systems and stations
 
 ## New Database Setup
 
-To set up the database, set your connection info in mysqlinfo.txt and run rebuild.sh. This script downloads the data files from eddb.io and edsm.net, imports the data via mysqlimport, and runs rebuild.sql script to populate the db.
+To set up the database, set your connection info in mysqlinfo.txt, download 'json2csv' from: https://github.com/zemirco/json2csv/archive/master.zip
+
+And run rebuild.sh. This script downloads the data files from eddb.io and edsm.net, imports the data via mysqlimport, and runs rebuild.sql script to populate the db.
 
 ## Update Existing Database
 
